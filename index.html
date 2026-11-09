@@ -14570,7 +14570,7 @@ function d2RenderForecast(){
   const esc=escapeHtml,warnings=weather?.warnings?Object.values(weather.warnings).filter(x=>x&&typeof x==='object'&&x.actionCode!=='CANCEL'&&(!x.expireTime||Date.parse(x.expireTime)>Date.now())).map(x=>x.name||x.type).filter(Boolean):null;
   const tomorrowDate=getHongKongDate(1).replaceAll('-',''),tomorrow=weather?.sevenDay?.weatherForecast?.find(d=>String(d.forecastDate)===tomorrowDate),dateLabel=Number(tomorrowDate.slice(4,6))+'/'+Number(tomorrowDate.slice(6,8));
   const forecast=tomorrow?'<strong>'+esc(hkoValue(tomorrow.forecastMintemp?.value)+'–'+hkoValue(tomorrow.forecastMaxtemp?.value)+'°C')+'</strong><span>'+esc(tomorrow.forecastWeather||hkoIconLabel(tomorrow.ForecastIcon))+'</span>'+(tomorrow.forecastWind?'<span>'+esc(tomorrow.forecastWind)+'</span>':'')+(weather.sevenDayError?'<span>更新未成功，保留上次預報</span>':''):'<strong>'+(state.topWeatherUpdating?'正在讀取預報…':'暫未取得明日預報')+'</strong>';
-  const html='<div class="d2-weather-metrics d2-weather-overview"><div><small>天氣警告</small><strong>'+esc(warnings?(warnings.join('、')||'暫無生效警告'):'暫未取得警告資料')+'</strong></div><div><small>明日天氣 · '+esc(dateLabel)+'</small>'+forecast+'</div></div>'+(current?'<p class="d2-weather-description">'+esc(hkoText(weather.forecast?.forecastDesc)||'暫未取得本港天氣預測，點按上方查看詳情或重試。')+'</p>':'');
+  const html='<div class="d2-weather-metrics d2-weather-overview"><div><small>天氣警告</small><strong>'+esc(warnings?(warnings.join('、')||'暫無生效警告'):'暫未取得警告資料')+'</strong></div><div><small>明日天氣 · '+esc(dateLabel)+'</small>'+forecast+'</div></div>';
   if(details.innerHTML!==html)details.innerHTML=html;
  }
 
