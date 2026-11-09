@@ -6106,6 +6106,8 @@ html[data-d2-theme=dark] body #schoolCalendarGrid .is-today .calendar-day-number
 html[data-d2-theme=dark] :is(#weekly-schedule,#school-calendar){--d2-grid-line:rgba(255,255,255,.28)}
 html[data-d2-theme=dark] #weekly-schedule :is(.weekly-schedule-panel,.weekly-table-wrap,.weekly-schedule-table,.weekly-schedule-table th,.weekly-schedule-table td,.ych-mobile-day,.ych-mobile-lesson,.ych-mobile-day-title),
 html[data-d2-theme=dark] #school-calendar :is(.school-calendar-panel,.school-calendar-grid,.school-calendar-cell,.school-calendar-day,.school-calendar-weekdays){border-color:var(--d2-grid-line)!important}
+
+#topWeatherMeta{white-space:pre-line;line-height:1.7}
 </style></head>
 <body>
   <svg aria-hidden="true" width="0" height="0" style="position:absolute;overflow:hidden">
@@ -8724,7 +8726,7 @@ html[data-d2-theme=dark] #school-calendar :is(.school-calendar-panel,.school-cal
       $("#topWeatherSummary").textContent = current
         ? (station?.place || "香港") + " " + hkoValue(station?.value,"°C") + " · " + hkoIconLabel(current.icon?.[0])
         : state.topWeatherError ? "暫未能取得天氣 · 點按重試" : "正在讀取天氣…";
-      $("#topWeatherMeta").textContent = current ? "濕度 " + hkoValue(humidity?.value,"%") + " · " + hkoTime(current.updateTime) : "點按查看詳細天氣";
+      $("#topWeatherMeta").textContent = current ? "觀測位置：" + (station?.place || "未提供") + "（" + hkoLocationLabel(current) + "）\n濕度 " + hkoValue(humidity?.value,"%") + " · " + hkoTime(current.updateTime) : "點按查看詳細天氣";
       button.title = $("#topWeatherSummary").textContent + "；點按查看詳細天氣";
       button.setAttribute("aria-label", button.title);
       button.setAttribute("aria-busy", String(state.topWeatherUpdating));
