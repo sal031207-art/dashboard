@@ -1179,7 +1179,7 @@
 
     .news-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 14px;
     }
 
@@ -1288,7 +1288,7 @@
 
     .news-more-button {
       min-height: 44px;
-      display: inline-flex;
+      display: none;
       align-items: center;
       gap: 5px;
       padding: 7px 10px;
@@ -2968,6 +2968,10 @@
       .news-column-head {
         border-right: 0;
         border-bottom: 1px solid var(--line);
+      }
+
+      .news-more-button {
+        display: inline-flex;
       }
 
       .news-list {
@@ -6132,6 +6136,17 @@ html[data-d2-theme=dark] #school-calendar :is(.school-calendar-panel,.school-cal
 #topWeatherMeta{white-space:pre-line;line-height:1.7}
 
 .d2-weather-metrics.d2-weather-overview{grid-template-columns:repeat(2,minmax(0,1fr))}.d2-weather-overview>div:last-child{grid-column:auto}.d2-weather-overview strong{font-size:16px}.d2-weather-overview span{margin-top:6px;line-height:1.7;font-size:12px}@media(max-width:480px){.d2-weather-metrics.d2-weather-overview{grid-template-columns:1fr}}
+/* Keep all four news desks on one evenly divided row on desktop and tablet. */
+@media(min-width:761px){
+  .d2-card #newsGrid.news-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important;align-items:stretch}
+  .d2-card #newsGrid>.news-column{display:flex!important;flex-direction:column;height:100%}
+  .d2-card #newsGrid .news-column-head{border-right:0!important;border-bottom:1px solid var(--line)!important}
+  .d2-card #newsGrid .news-list{grid-template-columns:1fr!important}
+  .d2-card #newsGrid .news-item:nth-child(odd){border-right:0!important}
+}
+@media(max-width:760px){
+  .d2-card #newsGrid.news-grid{grid-template-columns:1fr!important}
+}
 </style></head>
 <body>
   <svg aria-hidden="true" width="0" height="0" style="position:absolute;overflow:hidden">
@@ -8072,12 +8087,13 @@ html[data-d2-theme=dark] #school-calendar :is(.school-calendar-panel,.school-cal
     const NEWS_SEARCH_COUNT = 10;
     const newsColumns = Object.freeze([
       { key: "hk", title: "港聞要聞", hint: "政策 · 民生 · 教育 · 經濟" },
+      { key: "china", title: "中國新聞", hint: "內地 · 大中華 · 政策" },
       { key: "intl", title: "國際新聞", hint: "亞太 · 歐美 · 全球議題" },
       { key: "finance", title: "財經新聞", hint: "利率 · 企業 · 市場政策" }
     ]);
 
     function emptyNews() {
-      return { hk: [], intl: [], finance: [] };
+      return { hk: [], china: [], intl: [], finance: [] };
     }
 
     function getHongKongDate(offsetDays = 0) {
@@ -8371,6 +8387,7 @@ html[data-d2-theme=dark] #school-calendar :is(.school-calendar-panel,.school-cal
       const tomorrow = getHongKongDate(1);
       const queries = {
         hk: "香港 今日最新 港聞 政策 民生 教育 經濟 " + today + " after:" + yesterday + " before:" + tomorrow + " lang:zh",
+        china: "中國 今日最新 內地 大中華 政策 經濟 " + today + " after:" + yesterday + " before:" + tomorrow + " lang:zh",
         intl: "今日最新 國際新聞 亞洲 美國 歐洲 中東 " + today + " after:" + yesterday + " before:" + tomorrow + " lang:zh,en",
         finance: "香港 今日最新 財經 經濟 利率 企業 金融 " + today + " after:" + yesterday + " before:" + tomorrow + " lang:zh,en"
       };
@@ -8382,7 +8399,7 @@ html[data-d2-theme=dark] #school-calendar :is(.school-calendar-panel,.school-cal
       button.querySelector("svg").classList.add("spin");
       setRefreshProgress(8, true);
       renderNews();
-      $("#aiStatus").textContent = "DeepSeek Search 正在搜尋三個新聞分類…";
+      $("#aiStatus").textContent = "DeepSeek Search 正在搜尋 " + newsColumns.length + " 個新聞分類…";
 
       try {
         const settled = await Promise.allSettled(newsColumns.map(async column => {
@@ -8392,7 +8409,7 @@ html[data-d2-theme=dark] #school-calendar :is(.school-calendar-panel,.school-cal
             count: NEWS_SEARCH_COUNT,
             need_content: true
           }, controller.signal);
-          setRefreshProgress(column.key === "hk" ? 35 : column.key === "intl" ? 62 : 88, true);
+          setRefreshProgress(Math.round(((newsColumns.indexOf(column) + 1) / newsColumns.length) * 88), true);
           return {
             key: column.key,
             items: (payload?.results || []).map(result => searchItemToNews(result, column.key)).filter(Boolean)
@@ -14587,7 +14604,7 @@ function initDashboard2(){
 }
 /* Public RSS news: no AI call, account, or API key required. */
 const D2_RSS_KEY='dashboard2:news-rss:v1';
-const D2_RSS_FEEDS={hk:'https://rthk.hk/rthk/news/rss/c_expressnews_clocal.xml',intl:'https://rthk.hk/rthk/news/rss/c_expressnews_cinternational.xml',finance:'https://rthk.hk/rthk/news/rss/c_expressnews_cfinance.xml'};
+const D2_RSS_FEEDS={hk:'https://rthk.hk/rthk/news/rss/c_expressnews_clocal.xml',china:'https://rthk.hk/rthk/news/rss/c_expressnews_greaterchina.xml',intl:'https://rthk.hk/rthk/news/rss/c_expressnews_cinternational.xml',finance:'https://rthk.hk/rthk/news/rss/c_expressnews_cfinance.xml'};
 let d2RssController=null,d2RssTimer=null,d2RssMeta={};
 function renderHeaderContext(){renderHeaderContextLegacy();document.querySelector('#headerContext .header-agenda')?.remove()}
 function d2RssText(html){return new DOMParser().parseFromString(String(html||''),'text/html').body.textContent.replace(/\s+/g,' ').trim()}
@@ -14595,7 +14612,30 @@ function d2NewsDate(value){if(!value)return '';const text=String(value).trim();c
 function d2NormalizeRss(items,key){const seen=new Set();return items.map(x=>{const url=String(x.link||x.url||'');let safe;try{safe=new URL(url);if(!['https:','http:'].includes(safe.protocol))return null}catch{return null}if(seen.has(safe.href))return null;seen.add(safe.href);const summary=d2RssText(x.description||x.content||'');return {title:dashTrad(d2RssText(x.title||'')),summary:dashTrad(summary).slice(0,220),fullText:dashTrad(summary),source:'香港電台',url:safe.href,publishedAt:d2NewsDate(x.pubDate||x.publishedAt),category:key,eventId:safe.href}}).filter(x=>x&&x.title&&x.publishedAt&&Date.parse(x.publishedAt)>=Date.now()-7*86400000&&Date.parse(x.publishedAt)<=Date.now()+300000).sort((a,b)=>Date.parse(b.publishedAt)-Date.parse(a.publishedAt)).slice(0,30)}
 function d2ParseRss(xml,key){const doc=new DOMParser().parseFromString(xml,'text/xml');if(doc.querySelector('parsererror'))throw new Error('新聞來源格式無法讀取');const raw=[...doc.querySelectorAll('item')].map(n=>{const val=tag=>n.getElementsByTagName(tag)[0]?.textContent||'';return {title:val('title'),link:val('link'),description:val('description'),pubDate:val('pubDate')}});return d2NormalizeRss(raw,key)}
 async function d2FetchFeed(key,signal){const url=D2_RSS_FEEDS[key];const routes=[{url,type:'xml',name:'來源直連'},{url:'https://api.rss2json.com/v1/api.json?rss_url='+encodeURIComponent(url),type:'json',name:'RSS 公開轉接'},{url:'https://api.allorigins.win/raw?url='+encodeURIComponent(url),type:'xml',name:'RSS 後備轉接'}];let last,best;for(const route of routes){if(signal.aborted)throw new DOMException('Aborted','AbortError');try{const response=await fetch(route.url,{signal:AbortSignal.any([signal,AbortSignal.timeout(9000)]),credentials:'omit',referrerPolicy:'no-referrer'});if(!response.ok)throw new Error('新聞來源回應 '+response.status);let items;if(route.type==='json'){const json=await response.json();if(json.status!=='ok')throw new Error(json.message||'新聞轉接暫時不可用');items=d2NormalizeRss(json.items||[],key)}else items=d2ParseRss(await response.text(),key);if(!items.length)throw new Error('暫無七天內的新聞');const result={items,receivedAt:new Date().toISOString(),transport:route.name};if(!best||items.length>best.items.length)best=result;if(items.length>=20)return result}catch(e){last=e;if(signal.aborted)throw e}}if(best)return best;throw last||new Error('未能取得新聞')}
-function d2NewsItems(category){const query=document.getElementById('d2NewsSearch')?.value.trim().toLocaleLowerCase()||'';return (state.news?.[category]||[]).filter(x=>!query||[x.title,x.summary,x.source].join(' ').toLocaleLowerCase().includes(query))}
+function d2IsHongKongChinaStockNews(item){
+  const text=String([item?.title||'',item?.summary||''].join(' ')).normalize('NFKC');
+  const directMarket=/(?:港股|香港股市|中國股市|內地股市|[恒恆]生指數|[恒恆]指|科指|港交所|港股通|滬深港通|A股|H股|上證(?:指數|綜指)?|滬指|深證(?:成指|指數)?|滬深|創業板|科創板|北證)/iu.test(text);
+  const regionalMarket=/(?:股市|股票市場|證券市場|新股|招股|股票|市值|成交額)/u.test(text)&&/(?:香港|中國|內地|港交所|港股|A股|滬深)/u.test(text);
+  return directMarket||regionalMarket;
+}
+function d2NewsItems(category){
+  const query=document.getElementById('d2NewsSearch')?.value.trim().toLocaleLowerCase()||'';
+  const seenUrls=new Set(),seenTitles=new Set(),groups={};
+  for(const column of newsColumns){
+    for(const item of (state.news?.[column.key]||[])){
+      const url=String(item?.url||'').replace(/[?#].*$/,'').replace(/^https?:\/\/(?:www\.)?/i,'').replace(/\/+$/,'').trim().toLocaleLowerCase();
+      const normalizedTitle=String(item?.title||'').normalize('NFKC');
+      const title=normalizedTitle.replace(/[\s\p{P}\p{S}]+/gu,'').toLocaleLowerCase();
+      if((url&&seenUrls.has(url))||(title&&seenTitles.has(title)))continue;
+      if(url)seenUrls.add(url);
+      if(title)seenTitles.add(title);
+      const targetCategory=d2IsHongKongChinaStockNews(item)?'finance':column.key;
+      (groups[targetCategory]||(groups[targetCategory]=[])).push(item);
+    }
+  }
+  Object.values(groups).forEach(items=>items.sort((a,b)=>(Date.parse(b?.publishedAt)||0)-(Date.parse(a?.publishedAt)||0)));
+  return (groups[category]||[]).filter(x=>!query||[x.title,x.summary,x.source].join(' ').toLocaleLowerCase().includes(query));
+}
 function openNewsMore(category){
  if(state.newsProvider!=='public-rss')return openNewsMoreLegacy(category);
  const column=newsColumns.find(x=>x.key===category);if(!column)return;
@@ -14608,8 +14648,8 @@ function openNewsMore(category){
  const dialog=document.getElementById('newsMoreDialog');if(!dialog.open)dialog.showModal();
 }
 function renderNews(){if(state.newsProvider!=='public-rss')return renderNewsLegacy();const grid=document.getElementById('newsGrid');if(!grid)return;const query=document.getElementById('d2NewsSearch')?.value.trim().toLocaleLowerCase()||'';grid.innerHTML=newsColumns.map(column=>{const all=d2NewsItems(column.key),meta=d2RssMeta[column.key];const status=state.newsUpdating?'正在更新':meta?.failed?'更新失敗，保留上次資料':meta?.receivedAt?'已取得新聞':'尚未取得資料';return '<article class="news-column"><div class="news-column-head"><div><h3>'+escapeHtml(column.title)+'</h3><p>'+escapeHtml(status)+'</p></div><button type="button" class="news-more-button" data-news-more="'+column.key+'"'+(all.length?'':' disabled')+'>更多</button></div>'+(all.length?'<div class="news-list">'+all.slice(0,10).map(x=>renderNewsItem(x)).join('')+'</div>':'<p class="news-empty">'+(state.newsUpdating?'正在讀取公開新聞…':query?'找不到符合的新聞。':'暫未取得新聞，請稍後再更新。')+'</p>')+''+(meta?.receivedAt?'<p class="d2-status">最後成功取得：'+escapeHtml(formatDateTime(meta.receivedAt))+'</p>':'')+'</article>'}).join('')}
-async function d2LoadPublicNews(manual=false){if(state.newsUpdating)return;const root=document.getElementById('d2-news');if(!root)return;d2RssController?.abort();const controller=new AbortController();d2RssController=controller;state.newsUpdating=true;state.newsProvider='public-rss';const button=document.getElementById('refreshNewsButton');button.disabled=true;button.setAttribute('aria-busy','true');renderNews();try{const keys=Object.keys(D2_RSS_FEEDS),settled=await Promise.allSettled(keys.map(key=>d2FetchFeed(key,controller.signal)));if(!root.isConnected||controller.signal.aborted)return;let count=0;const failed=[];keys.forEach((key,i)=>{const result=settled[i];if(result.status==='fulfilled'){state.news[key]=result.value.items;d2RssMeta[key]={receivedAt:result.value.receivedAt,transport:result.value.transport,failed:false};count++}else{failed.push(newsColumns.find(x=>x.key===key).title);d2RssMeta[key]={...d2RssMeta[key],failed:true}}});state.newsStatus=count===3?'success':count?'partial':'error';const times=Object.keys(D2_RSS_FEEDS).map(key=>Date.parse(d2RssMeta[key]?.receivedAt||''));state.lastNewsSuccess=times.every(Number.isFinite)?new Date(Math.min(...times)):null;d2Save(D2_RSS_KEY,{categories:state.news,meta:d2RssMeta});document.getElementById('aiStatus').textContent=failed.length?'公開新聞 · 毋須金鑰 · 未能更新：'+failed.join('、')+'。已保留可用資料，請稍後再更新。':'公開新聞 · 毋須金鑰 · 每15分鐘自動更新。';if(manual)showToast(count===3?'已更新公開新聞。':count?'部分新聞未能更新，已保留可用資料。':'公開新聞暫時未能連接，已保留可用資料。',count?'success':'error')}finally{if(d2RssController===controller){state.newsUpdating=false;button.disabled=false;button.removeAttribute('aria-busy');renderNews()}}}
-function initPublicNews(){clearInterval(d2RssTimer);d2RssController?.abort();const cache=d2Read(D2_RSS_KEY,null);state.newsProvider='public-rss';state.news=cache?.categories||emptyNews();d2RssMeta=cache?.meta||{};state.newsUpdating=false;state.newsStatus='cached';const times=Object.keys(D2_RSS_FEEDS).map(key=>Date.parse(d2RssMeta[key]?.receivedAt||''));state.lastNewsSuccess=times.every(Number.isFinite)?new Date(Math.min(...times)):null;document.getElementById('aiStatus').textContent='公開新聞 · 毋須金鑰 · 每15分鐘自動更新。';document.getElementById('d2NewsSearch').oninput=renderNews;document.getElementById('refreshNewsButton').onclick=()=>d2LoadPublicNews(true);renderNews();const oldest=state.lastNewsSuccess?.getTime()||0;if(Date.now()-oldest>900000)setTimeout(()=>{if(document.getElementById('d2-news'))d2LoadPublicNews()},500);d2RssTimer=setInterval(()=>{if(document.getElementById('d2-news')&&!document.hidden)d2LoadPublicNews()},900000)}
+async function d2LoadPublicNews(manual=false){if(state.newsUpdating)return;const root=document.getElementById('d2-news');if(!root)return;d2RssController?.abort();const controller=new AbortController();d2RssController=controller;state.newsUpdating=true;state.newsProvider='public-rss';const button=document.getElementById('refreshNewsButton');button.disabled=true;button.setAttribute('aria-busy','true');renderNews();try{const keys=Object.keys(D2_RSS_FEEDS),settled=await Promise.allSettled(keys.map(key=>d2FetchFeed(key,controller.signal)));if(!root.isConnected||controller.signal.aborted)return;let count=0;const failed=[];keys.forEach((key,i)=>{const result=settled[i];if(result.status==='fulfilled'){state.news[key]=result.value.items;d2RssMeta[key]={receivedAt:result.value.receivedAt,transport:result.value.transport,failed:false};count++}else{failed.push(newsColumns.find(x=>x.key===key).title);d2RssMeta[key]={...d2RssMeta[key],failed:true}}});state.newsStatus=count===keys.length?'success':count?'partial':'error';const times=Object.keys(D2_RSS_FEEDS).map(key=>Date.parse(d2RssMeta[key]?.receivedAt||''));state.lastNewsSuccess=times.every(Number.isFinite)?new Date(Math.min(...times)):null;d2Save(D2_RSS_KEY,{categories:state.news,meta:d2RssMeta});document.getElementById('aiStatus').textContent=failed.length?'公開新聞 · 毋須金鑰 · 未能更新：'+failed.join('、')+'。已保留可用資料，請稍後再更新。':'公開新聞 · 毋須金鑰 · 每15分鐘自動更新。';if(manual)showToast(count===keys.length?'已更新公開新聞。':count?'部分新聞未能更新，已保留可用資料。':'公開新聞暫時未能連接，已保留可用資料。',count?'success':'error')}finally{if(d2RssController===controller){state.newsUpdating=false;button.disabled=false;button.removeAttribute('aria-busy');renderNews()}}}
+function initPublicNews(){clearInterval(d2RssTimer);d2RssController?.abort();const cache=d2Read(D2_RSS_KEY,null);state.newsProvider='public-rss';state.news={...emptyNews(),...(cache?.categories||{})};d2RssMeta=cache?.meta||{};state.newsUpdating=false;state.newsStatus='cached';const times=Object.keys(D2_RSS_FEEDS).map(key=>Date.parse(d2RssMeta[key]?.receivedAt||''));state.lastNewsSuccess=times.every(Number.isFinite)?new Date(Math.min(...times)):null;document.getElementById('aiStatus').textContent='公開新聞 · 毋須金鑰 · 每15分鐘自動更新。';document.getElementById('d2NewsSearch').oninput=renderNews;document.getElementById('refreshNewsButton').onclick=()=>d2LoadPublicNews(true);renderNews();const oldest=state.lastNewsSuccess?.getTime()||0;if(Date.now()-oldest>900000)setTimeout(()=>{if(document.getElementById('d2-news'))d2LoadPublicNews()},500);d2RssTimer=setInterval(()=>{if(document.getElementById('d2-news')&&!document.hidden)d2LoadPublicNews()},900000)}
 function initNewsPreview(signal){
   const dialog=document.createElement('dialog');dialog.id='d2NewsArticleDialog';dialog.className='d2-dialog d2-news-article';dialog.setAttribute('aria-labelledby','d2NewsArticleTitle');dialog.innerHTML='<div class="d2-dialog-head"><span class="d2-news-kicker">新聞詳情</span><button type="button" class="btn btn-secondary" id="d2NewsArticleClose">關閉</button></div><h2 id="d2NewsArticleTitle"></h2><div class="d2-news-article-meta"><time id="d2NewsArticleTime"></time></div><div id="d2NewsArticleContent" class="d2-news-article-content"></div><p id="d2NewsArticleNote" class="d2-news-note"></p><div class="d2-news-article-actions"><a id="d2NewsArticleLink" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">閱讀原文 ↗</a></div>';document.getElementById('mainContent').append(dialog);
  let returnFocus=null;const close=()=>dialog.close();document.getElementById('d2NewsArticleClose').onclick=close;dialog.addEventListener('close',()=>{if(returnFocus?.isConnected)returnFocus.focus({preventScroll:true})},{signal});dialog.addEventListener('click',e=>{if(e.target!==dialog)return;const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)close()},{signal});
