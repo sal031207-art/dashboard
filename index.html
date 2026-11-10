@@ -7191,6 +7191,18 @@ html[data-d2-theme=dark] #school-calendar :is(.school-calendar-panel,.school-cal
       return merged;
     }
 
+    function expandYchScheduleItemsForCards(classes) {
+      return classes.flatMap(item => {
+        const start = item.startPeriod;
+        const end = item.endPeriod || start;
+        return Array.from({ length: end - start + 1 }, (_, offset) => ({
+          ...item,
+          startPeriod: start + offset,
+          endPeriod: start + offset
+        }));
+      });
+    }
+
     function ychDutyForSlot(duties, day, dutyType) {
       return duties.find(item => {
         if (item.day !== day) return false;
@@ -7216,6 +7228,7 @@ html[data-d2-theme=dark] #school-calendar :is(.school-calendar-panel,.school-cal
       const classes = mergeYchScheduleItems(
         weeklyData.classes.filter(item => item.teacher === teacher.id && item.week === mode && item.day >= 1 && item.day <= 5)
       );
+      const cardClasses = expandYchScheduleItemsForCards(classes);
       const duties = weeklyData.duties.filter(item =>
         item.teacher === teacher.id && item.week === (mode === "single" ? "單周" : "雙周")
       );
@@ -7290,15 +7303,15 @@ html[data-d2-theme=dark] #school-calendar :is(.school-calendar-panel,.school-cal
 
       $("#ychMobileSchedule").innerHTML = dayNames.map((dayName, index) => {
         const day = index + 1;
-        const lessons = classes
+        const lessons = cardClasses
           .filter(item => item.day === day)
           .sort((a, b) => a.startPeriod - b.startPeriod);
         const entries = lessons.map(item => {
           const content = ychScheduleItemContent(item);
           const start = ychBellForPeriod(item.startPeriod)?.start || "";
-          const endBell = ychBellForPeriod(item.endPeriod || item.startPeriod);
-          const time = start && endBell ? start + "–" + endBell.end : "第 " + item.startPeriod + "–" + (item.endPeriod || item.startPeriod) + " 節";
-          return { sort: start || "23:59", html: '<div class="ych-mobile-lesson"><time>' + escapeHtml(time) + '</time><div><strong>' + escapeHtml(content.title) + '</strong>' + (content.detail ? '<span>' + escapeHtml(content.detail) + '</span>' : "") + '</div></div>' };
+          const bell = ychBellForPeriod(item.startPeriod);
+          const time = start && bell ? start + "–" + bell.end : "第 " + item.startPeriod + " 節";
+          return { sort: start || "23:59", html: '<div class="ych-mobile-lesson" data-schedule-period="' + item.startPeriod + '"><time>' + escapeHtml(time) + '</time><div><strong>' + escapeHtml(content.title) + '</strong>' + (content.detail ? '<span>' + escapeHtml(content.detail) + '</span>' : "") + '</div></div>' };
         });
         entries.unshift({ sort: "08:15", html: '<div class="ych-mobile-lesson"><time>08:15–08:40</time><div><strong>' + escapeHtml(morningClassTeacher[index]) + '</strong><span>' + escapeHtml(classTeacherLabel) + '</span></div></div>' });
         duties.filter(item => item.day === day).forEach(item => {
