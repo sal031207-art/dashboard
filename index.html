@@ -7185,7 +7185,7 @@ html[data-d2-theme=dark] #school-calendar :is(.school-calendar-panel,.school-cal
       const subject = item.subject === "CHH" ? "中史" : (item.subject || "課堂");
       return {
         title: [group, subject].filter(Boolean).join(" "),
-        detail: [item.room ? item.room + "室" : "", item.elective || ""].filter(Boolean).join(" · "),
+        detail: item.room ? item.room + "室" : "",
         block: false
       };
     }
