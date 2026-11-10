@@ -1718,9 +1718,26 @@
 
     .schedule-duty-time {
       display: block;
+      min-width: 0;
+      max-width: 100%;
       color: var(--coral);
       font-size: .68rem;
       font-weight: 750;
+      white-space: normal;
+      overflow-wrap: anywhere;
+    }
+
+    .schedule-duty-time .schedule-time-range {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      max-width: 100%;
+      row-gap: 0;
+    }
+
+    .schedule-duty-time .schedule-time-range > span {
+      min-width: 0;
       white-space: nowrap;
     }
 
@@ -3255,7 +3272,12 @@
       .schedule-duty-time {
         display: block;
         font-size: inherit;
-        white-space: nowrap;
+        white-space: normal;
+        overflow-wrap: anywhere;
+      }
+
+      .schedule-duty-time .schedule-time-range {
+        flex-direction: column;
       }
 
       .schedule-duty-location {
@@ -7124,11 +7146,17 @@ html[data-d2-theme=dark] #school-calendar :is(.school-calendar-panel,.school-cal
       cells.forEach(cell => {
         cell.style.removeProperty("font-size");
         if (!mobile) return;
-        const timeContent = cell.querySelector(".schedule-duty-time, .schedule-time-range");
-        if (!timeContent) return;
+        const timeContents = [...cell.querySelectorAll(".schedule-time-range")];
+        if (!timeContents.length) return;
         const availableWidth = cell.clientWidth - 5;
+        if (availableWidth <= 0) return;
+        const overflows = () => timeContents.some(line =>
+          line.scrollWidth > availableWidth + 0.5 ||
+          line.getBoundingClientRect().right > cell.getBoundingClientRect().right + 0.5 ||
+          line.getBoundingClientRect().left < cell.getBoundingClientRect().left - 0.5
+        );
         let size = Number.parseFloat(getComputedStyle(cell).fontSize);
-        while (timeContent.getBoundingClientRect().width > availableWidth && size > 4.2) {
+        while (overflows() && size > 4.2) {
           size -= 0.15;
           cell.style.fontSize = size.toFixed(2) + "px";
         }
@@ -14545,7 +14573,7 @@ function initDashboard2(){
  document.getElementById('d2LayoutDone').onclick=()=>layout.close();document.getElementById('d2Reset').onclick=()=>{prefs={order:defaults.slice(),cards:{},homeSections:homeDefaults.slice()};persist('已還原 Dashboard 2.0 預設佈局。');renderLayout()};document.getElementById('d2Legacy').onclick=()=>{layout.close();document.getElementById('displaySettingsDialog').showModal()};
  const navDefs=[['home','總覽首頁','i-grid'],['school','學校工作','i-school'],['markets','金融市場','i-market'],['tools','實用工具','i-tools'],['settings','個人設定','i-shield']];
  const side=el('nav','d2-side-nav');side.setAttribute('aria-label','Dashboard 2.0 主要導覽');const mobile=el('nav','d2-mobile-nav');mobile.setAttribute('aria-label','手機主要導覽');
- function navigate(value){if(value==='settings'){renderLayout();layout.showModal();return}route=value;document.getElementById('d2PageTitle').textContent=names[value];document.querySelectorAll('[data-d2-route]').forEach(b=>{if(b.dataset.d2Route===route)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});apply();window.scrollTo({top:0,left:0,behavior:'instant'})}
+ function navigate(value){if(value==='settings'){renderLayout();layout.showModal();return}route=value;document.getElementById('d2PageTitle').textContent=names[value];document.querySelectorAll('[data-d2-route]').forEach(b=>{if(b.dataset.d2Route===route)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});apply();requestAnimationFrame(adjustMobileTimetable);window.scrollTo({top:0,left:0,behavior:'instant'})}
  for(const[r,name,icon]of navDefs){const b=button(name,()=>navigate(r),'d2-nav');b.innerHTML=iconUse(icon)+'<span>'+name+'</span>';b.dataset.d2Route=r;side.append(b);if(r!=='settings'){const m=b.cloneNode(true);m.querySelector('span').textContent={home:'首頁',school:'校務',markets:'財經',news:'新聞',tools:'工具'}[r];m.onclick=()=>navigate(r);mobile.append(m)}}document.querySelector('.sidebar .brand-row').after(side);document.querySelector('.sidebar .brand-name').textContent='教師工作台';main.after(mobile);
  const statusTargets=[weather,news,document.getElementById('exchange'),document.getElementById('markets')];for(const n of statusTargets){const status=el('div','d2-status');status.dataset.d2Status=n.id;n.append(status)}
  function setStatus(id,updating,error,success,source,quote,ttl){const node=document.querySelector('[data-d2-status="'+id+'"]');if(!node)return;const t=Date.parse(success||''),has=Number.isFinite(t),stale=has&&Date.now()-t>ttl;const key=updating?'loading':error?'error':stale?'stale':has?'fresh':'empty';const label={loading:'正在更新',error:'更新失敗',stale:'資料過期',fresh:'已更新',empty:'尚未取得資料'}[key];const text='<b>'+label+'</b> · '+escapeHtml(source)+(has?'<br>最後成功取得：'+escapeHtml(formatDateTime(t)):'')+(quote?'<br>資料時間：'+escapeHtml(quote):'');if(node.innerHTML!==text)node.innerHTML=text;node.dataset.state=key}
