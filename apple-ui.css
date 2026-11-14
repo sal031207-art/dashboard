@@ -597,3 +597,52 @@ html:not([data-d2-theme="dark"]) body #schoolCalendarGrid .school-calendar-day.i
   color:#424247!important;
   -webkit-text-fill-color:currentColor!important;
 }
+
+
+/* Light calendar visual hotfix (2026-11-14): override legacy orange today
+   badge and blue selected outline, including iOS Safari pseudo decorations. */
+:root:not([data-d2-theme="dark"]) body #schoolCalendarGrid .school-calendar-day.is-today,
+html:not([data-d2-theme="dark"]) body .school-calendar-grid .school-calendar-day.is-today,
+html:not([data-d2-theme="dark"]) body .school-calendar-day.is-today {
+  background:#F3F3F6!important;
+  background-color:#F3F3F6!important;
+  background-image:none!important;
+  color:#1D1D1F!important;
+  border:1px solid #C7C7CE!important;
+  outline:0!important;
+  box-shadow:inset 0 0 0 1px #C7C7CE!important;
+}
+html:not([data-d2-theme="dark"]) body #schoolCalendarGrid .school-calendar-day.is-selected,
+html:not([data-d2-theme="dark"]) body #schoolCalendarGrid .school-calendar-day.is-today.is-selected,
+html:not([data-d2-theme="dark"]) body .school-calendar-day.is-selected {
+  background-color:#E8E8ED!important;
+  background-image:none!important;
+  border-color:#8E8E93!important;
+  outline:0!important;
+  box-shadow:inset 0 0 0 2px #8E8E93!important;
+}
+html:not([data-d2-theme="dark"]) body #schoolCalendarGrid .school-calendar-day.is-today :is(
+  .calendar-day-number,.day-number,.date-number,.calendar-date
+),
+html:not([data-d2-theme="dark"]) body .school-calendar-day.is-today .calendar-day-number {
+  background:#E0E0E5!important;
+  background-color:#E0E0E5!important;
+  background-image:none!important;
+  color:#1D1D1F!important;
+  -webkit-text-fill-color:#1D1D1F!important;
+  border-color:transparent!important;
+  outline:0!important;
+  box-shadow:none!important;
+  text-shadow:none!important;
+}
+html:not([data-d2-theme="dark"]) body .school-calendar-day.is-today :is(
+  .calendar-day-number,.day-number,.date-number
+)::before,
+html:not([data-d2-theme="dark"]) body .school-calendar-day.is-today :is(
+  .calendar-day-number,.day-number,.date-number
+)::after {
+  background:none!important;
+  background-image:none!important;
+  box-shadow:none!important;
+  border-color:transparent!important;
+}
