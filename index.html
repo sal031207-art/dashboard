@@ -5842,11 +5842,9 @@ html.mobile-drawer-open{overflow:hidden}
  .dashboard-shell .mobile-nav-dialog .logout-btn .icon{display:block}
 }
 </style>
-<link rel="icon" type="image/svg+xml" href="./app-icon.svg?v=2">
-<link rel="icon" type="image/png" sizes="192x192" href="./app-icon-192.png?v=2">
-<link rel="shortcut icon" href="./favicon.ico?v=2">
-<link rel="apple-touch-icon" sizes="180x180" href="./app-icon-180.png?v=2">
-<link rel="manifest" href="./manifest.webmanifest?v=2">
+<link id="adaptiveFavicon" rel="icon" type="image/svg+xml" href="./app-icon-light.svg?v=3">
+<link id="adaptiveAppleIcon" rel="apple-touch-icon" sizes="180x180" href="./app-icon-light-180.png?v=3">
+<link id="adaptiveAppManifest" rel="manifest" href="./manifest-light.webmanifest?v=3">
 <meta name="apple-mobile-web-app-title" content="教師工作台"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><style id="custom-entry-monograms">#school .custom-entry-icon{display:inline-flex;align-items:center;justify-content:center;flex:none;align-self:flex-start;width:46px;height:46px;min-height:46px;padding:0;border:0;border-radius:11px;background:var(--jade-tint);color:var(--jade);font:600 25px/1 Georgia,"Microsoft JhengHei",serif;letter-spacing:0}#school .custom-entry-link .custom-entry-icon{margin:0 0 2px}</style><style id="equal-quick-entry-cards">
 #mainContent #school .school-grid{grid-auto-rows:1fr;align-items:stretch}
 #mainContent #school .school-grid>.school-card{height:100%;min-height:276px;box-sizing:border-box}
@@ -6154,6 +6152,27 @@ html[data-d2-theme=dark] #school-calendar :is(.school-calendar-panel,.school-cal
   .d2-card #newsGrid.news-grid{grid-template-columns:1fr!important}
 }
 </style>  <link rel="stylesheet" href="./apple-ui.css?v=1">
+<script id="adaptiveAppIconController">
+(function(){
+  var mq=window.matchMedia('(prefers-color-scheme: dark)');
+  function applyIcons(){
+    var saved=document.documentElement.getAttribute('data-d2-theme');
+    var mode=saved==='light'||saved==='dark'?saved:(mq.matches?'dark':'light');
+    var suffix=mode==='dark'?'dark':'light';
+    var fav=document.getElementById('adaptiveFavicon');
+    var apple=document.getElementById('adaptiveAppleIcon');
+    var manifest=document.getElementById('adaptiveAppManifest');
+    if(fav)fav.href='./app-icon-'+suffix+'.svg?v=3';
+    if(apple)apple.href='./app-icon-'+suffix+'-180.png?v=3';
+    if(manifest)manifest.href='./manifest-'+suffix+'.webmanifest?v=3';
+  }
+  new MutationObserver(applyIcons).observe(document.documentElement,{attributes:true,attributeFilter:['data-d2-theme']});
+  if(mq.addEventListener)mq.addEventListener('change',applyIcons);
+  else if(mq.addListener)mq.addListener(applyIcons);
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',applyIcons,{once:true});
+  else applyIcons();
+})();
+</script>
 </head>
 <body>
   <svg aria-hidden="true" width="0" height="0" style="position:absolute;overflow:hidden">
