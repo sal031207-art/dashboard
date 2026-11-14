@@ -1,0 +1,81 @@
+name: Install iOS Dashboard icon
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/install-ios-icon.yml
+permissions:
+  contents: write
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Generate iOS and PWA images
+        run: |
+          python3 -m pip install --quiet cairosvg pillow
+          python3 - <<'PY'
+          from pathlib import Path
+          import io, cairosvg
+          from PIL import Image
+          svg=Path('app-icon.svg').read_bytes()
+          for size in (180,192,512):
+              raw=cairosvg.svg2png(bytestring=svg,output_width=size,output_height=size)
+              img=Image.open(io.BytesIO(raw)).convert('RGB')
+              img.save(f'app-icon-{size}.png',optimize=True)
+          img=Image.open('app-icon-192.png')
+          img.save('favicon.ico',sizes=[(16,16),(32,32),(48,48)])
+          PY
+      - name: Replace old inline icons and embedded manifest
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+          p=Path('index.html')
+          s=p.read_text(encoding='utf-8')
+          start=s.find('<link rel="icon" type="image/svg+xml"')
+          end=s.find('<meta name="apple-mobile-web-app-title"', start)
+          assert start>=0 and end>start, 'Old inline icon segment not found; refusing unsafe rewrite'
+          tags=('\n<link rel="icon" type="image/svg+xml" href="./app-icon.svg?v=2">'
+                '\n<link rel="icon" type="image/png" sizes="192x192" href="./app-icon-192.png?v=2">'
+                '\n<link rel="shortcut icon" href="./favicon.ico?v=2">'
+                '\n<link rel="apple-touch-icon" sizes="180x180" href="./app-icon-180.png?v=2">'
+                '\n<link rel="manifest" href="./manifest.webmanifest?v=2">\n')
+          s=s[:start]+tags+s[end:]
+          p.write_text(s, encoding='utf-8')
+          manifest={
+            'id':'./','name':'教師工作台','short_name':'教師工作台','lang':'zh-Hant-HK',
+            'start_url':'./','scope':'./','display':'standalone',
+            'background_color':'#111113','theme_color':'#0A84FF',
+            'icons':[
+              {'src':'./app-icon-192.png','sizes':'192x192','type':'image/png','purpose':'any'},
+              {'src':'./app-icon-512.png','sizes':'512x512','type':'image/png','purpose':'any'},
+              {'src':'./app-icon-512.png','sizes':'512x512','type':'image/png','purpose':'maskable'}
+            ]
+          }
+          Path('manifest.webmanifest').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          PY
+      - name: Verify generated icon files
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from PIL import Image
+          html=Path('index.html').read_text(encoding='utf-8')
+          assert html.count('rel="apple-touch-icon"')==1
+          assert 'rel="manifest" href="./manifest.webmanifest?v=2"' in html
+          assert '<link rel="stylesheet" href="./apple-ui.css?v=1">' in html
+          for size in (180,192,512):
+              with Image.open(f'app-icon-{size}.png') as im:
+                  assert im.size==(size,size)
+          assert Path('favicon.ico').exists()
+          PY
+      - name: Commit icon assets and remove one-time workflow
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html app-icon-180.png app-icon-192.png app-icon-512.png favicon.ico manifest.webmanifest
+          git rm .github/workflows/install-ios-icon.yml
+          git commit -m "style: install iOS home screen and PWA app icons"
+          git push
