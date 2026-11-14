@@ -21,17 +21,17 @@
  <rect x="116" y="263" width="132" height="132" rx="30"/>
  <rect x="264" y="263" width="132" height="132" rx="30"/>
 </g>
-<g stroke="white" fill="none" stroke-linecap="round" stroke-linejoin="round">
+<g stroke="#30343B" fill="none" stroke-linecap="round" stroke-linejoin="round">
  <rect x="148" y="152" width="68" height="63" rx="9" stroke-width="9"/>
  <path d="M148 173h68M165 143v18M199 143v18" stroke-width="9"/>
  <path d="M163 187h1M181 187h1M199 187h1M163 201h1M181 201h1" stroke-width="7"/>
  <path d="m291 204 28-29 21 17 27-32" stroke-width="10"/>
  <path d="M298 217v-13M321 217v-20M346 217v-15M370 217v-33" stroke-width="10"/>
  <rect x="147" y="301" width="70" height="57" rx="10" stroke-width="9"/>
- <path d="M162 316h13v14h-13z" fill="white" stroke="none"/>
+ <path d="M162 316h13v14h-13z" fill="#30343B" stroke="none"/>
  <path d="M185 319h18M185 330h18M163 344h40" stroke-width="7"/>
 </g>
-<g fill="white">
+<g fill="#30343B">
  <rect x="293" y="299" width="30" height="30" rx="11"/>
  <rect x="337" y="299" width="30" height="30" rx="11"/>
  <rect x="293" y="343" width="30" height="30" rx="11"/>
