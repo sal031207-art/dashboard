@@ -535,3 +535,34 @@ html[data-d2-theme="dark"] body #schoolCalendarGrid .school-calendar-day .calend
   color:#F0F0F3!important;
   border-color:#5A5A63!important;
 }
+
+
+/* Dark iOS bottom navigation: neutral selection, no blue highlight. */
+html[data-d2-theme="dark"] body .d2-mobile-nav :is(
+  a,button,[role="tab"],.d2-nav,.nav-link
+) {
+  -webkit-tap-highlight-color:transparent;
+  accent-color:#D2D2D8;
+}
+html[data-d2-theme="dark"] body .d2-mobile-nav :is(
+  a,button,[role="tab"],.d2-nav,.nav-link
+):is(.active,.selected,[aria-current="page"],[aria-selected="true"],[aria-pressed="true"]) {
+  background:#44444C!important;
+  background-image:none!important;
+  color:#FFFFFF!important;
+  border-color:transparent!important;
+  box-shadow:none!important;
+}
+html[data-d2-theme="dark"] body .d2-mobile-nav :is(
+  a,button,[role="tab"],.d2-nav,.nav-link
+):is(.active,.selected,[aria-current="page"],[aria-selected="true"],[aria-pressed="true"]) :is(
+  svg,i,.icon,.lucide
+) {
+  color:inherit!important;
+  stroke:currentColor;
+}
+html[data-d2-theme="dark"] body .d2-mobile-nav :is(
+  a,button,[role="tab"],.d2-nav,.nav-link
+):is(.active,.selected,[aria-current="page"],[aria-selected="true"],[aria-pressed="true"]):hover {
+  background:#505058!important;
+}
