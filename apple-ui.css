@@ -89,3 +89,150 @@ dialog,.dash-dialog,.dashboard-dialog,.mobile-nav-dialog{border-radius:22px!impo
 @media(prefers-reduced-motion:reduce){
  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
 }
+
+/* Apple Dark Mode 2.1 — scoped to the existing Dashboard 2.0 theme switch.
+   Preserves the light theme, functional logic, statuses and content data. */
+:root[data-d2-theme="dark"] {
+  --paper:#111113;
+  --paper-deep:#1A1A1D;
+  --surface:#242427;
+  --surface-soft:#2C2C30;
+  --ink:#F5F5F7;
+  --ink-2:#DBDBE0;
+  --muted:#B3B3BB;
+  --line:#3C3C42;
+  --line-strong:#55555E;
+  --grid-line:#43434B;
+  --jade:#0A84FF;
+  --jade-dark:#65B1FF;
+  --jade-tint:#18334F;
+  --blue:#0A84FF;
+  --ai:#B8A8FF;
+  --ai-tint:#312B48;
+  --coral:#FF8C89;
+  --coral-tint:#45282C;
+  --gold:#F2CC80;
+  --gold-tint:#433721;
+  --success:#58D59A;
+  --warning:#F6C575;
+  --danger:#FF8989;
+  --shadow-sm:0 2px 14px rgba(0,0,0,.18),0 12px 32px rgba(0,0,0,.13);
+  --shadow-md:0 18px 54px rgba(0,0,0,.35);
+  --focus:0 0 0 3px rgba(10,132,255,.38);
+  color-scheme:dark;
+}
+:root[data-d2-theme="dark"] body {
+  background:radial-gradient(ellipse at 88% -14%,rgba(56,77,116,.15),transparent 39%),var(--paper)!important;
+  color:var(--ink);
+}
+:root[data-d2-theme="dark"] .dashboard-shell>.sidebar {
+  background:rgba(30,30,34,.86)!important;
+  border-right-color:rgba(255,255,255,.085)!important;
+  box-shadow:6px 0 38px rgba(0,0,0,.13);
+}
+:root[data-d2-theme="dark"] .dashboard-shell .d2-nav,
+:root[data-d2-theme="dark"] .dashboard-shell .nav-link {
+  color:var(--ink-2);
+}
+:root[data-d2-theme="dark"] .dashboard-shell .d2-nav:hover,
+:root[data-d2-theme="dark"] .dashboard-shell .nav-link:hover {
+  background:rgba(255,255,255,.075)!important;
+  color:var(--ink)!important;
+}
+:root[data-d2-theme="dark"] .dashboard-shell .d2-nav[aria-current="page"],
+:root[data-d2-theme="dark"] .dashboard-shell .nav-link.active {
+  background:rgba(10,132,255,.17)!important;
+  color:#9DCEFF!important;
+  box-shadow:inset 0 0 0 1px rgba(10,132,255,.15)!important;
+}
+:root[data-d2-theme="dark"] #mainContent>.d2-card,
+:root[data-d2-theme="dark"] .panel,
+:root[data-d2-theme="dark"] .hero,
+:root[data-d2-theme="dark"] .school-card,
+:root[data-d2-theme="dark"] .quick-card,
+:root[data-d2-theme="dark"] .news-column,
+:root[data-d2-theme="dark"] .market-panel {
+  background:var(--surface)!important;
+  border-color:rgba(255,255,255,.09)!important;
+  box-shadow:var(--shadow-sm)!important;
+}
+:root[data-d2-theme="dark"] #mainContent>.d2-card:hover {
+  box-shadow:0 12px 36px rgba(0,0,0,.25)!important;
+  border-color:rgba(255,255,255,.14)!important;
+}
+:root[data-d2-theme="dark"] #mainContent .d2-card .panel {
+  background:var(--surface-soft)!important;
+  box-shadow:none!important;
+}
+:root[data-d2-theme="dark"] #mainContent .panel-head,
+:root[data-d2-theme="dark"] .d2-side-foot,
+:root[data-d2-theme="dark"] .source-state {
+  border-color:var(--line)!important;
+}
+:root[data-d2-theme="dark"] .btn-secondary,
+:root[data-d2-theme="dark"] .btn-quiet,
+:root[data-d2-theme="dark"] .d2-card-bar button,
+:root[data-d2-theme="dark"] .d2-card-handle {
+  color:var(--ink)!important;
+  background:var(--surface-soft)!important;
+  border-color:var(--line)!important;
+  box-shadow:none!important;
+}
+:root[data-d2-theme="dark"] .btn-secondary:hover,
+:root[data-d2-theme="dark"] .btn-quiet:hover,
+:root[data-d2-theme="dark"] .d2-card-bar button:hover {
+  background:#39393F!important;
+  border-color:#66666F!important;
+}
+:root[data-d2-theme="dark"] .btn-primary,
+:root[data-d2-theme="dark"] .btn-jade {
+  color:#FFFFFF!important;
+  background:#0A84FF!important;
+  border-color:transparent!important;
+  box-shadow:0 4px 16px rgba(10,132,255,.20)!important;
+}
+:root[data-d2-theme="dark"] .btn-primary:hover,
+:root[data-d2-theme="dark"] .btn-jade:hover { background:#0070DE!important; }
+:root[data-d2-theme="dark"] .input,
+:root[data-d2-theme="dark"] .select,
+:root[data-d2-theme="dark"] .textarea {
+  color:var(--ink)!important;
+  background:#2D2D32!important;
+  border-color:var(--line-strong)!important;
+}
+:root[data-d2-theme="dark"] .input::placeholder,
+:root[data-d2-theme="dark"] .textarea::placeholder { color:#B0B0B9;opacity:1; }
+:root[data-d2-theme="dark"] .auth-shell,
+:root[data-d2-theme="dark"] .auth-panel,
+:root[data-d2-theme="dark"] dialog,
+:root[data-d2-theme="dark"] .dash-dialog,
+:root[data-d2-theme="dark"] .dashboard-dialog,
+:root[data-d2-theme="dark"] .mobile-nav-dialog {
+  background:var(--surface)!important;
+  color:var(--ink)!important;
+  border-color:var(--line)!important;
+}
+:root[data-d2-theme="dark"] .auth-brand {
+  background:linear-gradient(155deg,#111B31,#153F70)!important;
+}
+:root[data-d2-theme="dark"] .demo-ribbon {
+  background:var(--jade-tint)!important;
+  color:#A4D2FF!important;
+  border-color:rgba(10,132,255,.25)!important;
+}
+:root[data-d2-theme="dark"] .d2-mobile-nav {
+  background:rgba(37,37,42,.91)!important;
+  border-color:rgba(255,255,255,.12)!important;
+  box-shadow:0 12px 32px rgba(0,0,0,.35)!important;
+}
+@media(max-width:960px) {
+  :root[data-d2-theme="dark"] .dashboard-shell>.sidebar {
+    background:rgba(30,30,34,.94)!important;
+  }
+}
+@supports not ((-webkit-backdrop-filter:blur(1px)) or (backdrop-filter:blur(1px))) {
+  :root[data-d2-theme="dark"] .dashboard-shell>.sidebar,
+  :root[data-d2-theme="dark"] .d2-mobile-nav {
+    background:#252529!important;
+  }
+}
