@@ -236,3 +236,117 @@ dialog,.dash-dialog,.dashboard-dialog,.mobile-nav-dialog{border-radius:22px!impo
     background:#252529!important;
   }
 }
+
+
+/* Dark controls 2.2: consistent graphite/monochrome buttons; only intentionally
+   semantic success/warning/danger controls retain their status coloring. */
+html[data-d2-theme="dark"] body {
+  --control-bg:#303035;
+  --control-bg-hover:#414148;
+  --control-border:#53535C;
+  --control-text:#F5F5F7;
+  --control-active:#F0F0F3;
+  --control-active-text:#1C1C20;
+}
+html[data-d2-theme="dark"] body :is(
+  .btn,.btn-secondary,.btn-quiet,.btn-primary,.btn-jade,
+  .segment,.calendar-control,.y-range,.swap-btn,.swap-small,
+  .d2-days button,.d2-card-bar button,.d2-card-handle,
+  .section-drag-handle,.stock-drag-handle,
+  .news-more-button,.stock-add-button,.stock-remove-button,
+  .password-toggle,.d2-topbar button,.d2-actions button
+) {
+  background:var(--control-bg)!important;
+  background-image:none!important;
+  color:var(--control-text)!important;
+  border:1px solid var(--control-border)!important;
+  box-shadow:none!important;
+  -webkit-text-fill-color:currentColor;
+}
+html[data-d2-theme="dark"] body :is(
+  .btn,.btn-secondary,.btn-quiet,.btn-primary,.btn-jade,
+  .segment,.calendar-control,.y-range,.swap-btn,.swap-small,
+  .d2-days button,.d2-card-bar button,.d2-card-handle,
+  .section-drag-handle,.stock-drag-handle,
+  .news-more-button,.stock-add-button,.stock-remove-button,
+  .password-toggle,.d2-topbar button,.d2-actions button
+):not(:disabled):hover {
+  background:var(--control-bg-hover)!important;
+  color:var(--control-text)!important;
+  border-color:#73737C!important;
+  box-shadow:none!important;
+}
+html[data-d2-theme="dark"] body :is(
+  .btn-primary,.btn-jade,.segment.active,
+  .d2-days button[aria-pressed="true"],
+  .calendar-control.active,
+  button[aria-pressed="true"],
+  button[aria-selected="true"]
+) {
+  background:var(--control-active)!important;
+  background-image:none!important;
+  color:var(--control-active-text)!important;
+  border-color:var(--control-active)!important;
+  box-shadow:none!important;
+}
+html[data-d2-theme="dark"] body :is(
+  .btn-primary,.btn-jade,.segment.active,
+  .d2-days button[aria-pressed="true"],button[aria-selected="true"]
+):not(:disabled):hover {
+  background:#D5D5DA!important;
+  color:#17171B!important;
+  border-color:#D5D5DA!important;
+}
+html[data-d2-theme="dark"] body :is(
+  button,.btn,.segment,.calendar-control,.y-range
+):disabled {
+  background:#26262B!important;
+  color:#888890!important;
+  border-color:#39393F!important;
+  opacity:.76;
+  box-shadow:none!important;
+}
+html[data-d2-theme="dark"] body :is(
+  button,.btn,.segment,.calendar-control,.y-range
+):focus-visible {
+  outline:2px solid #E8E8ED!important;
+  outline-offset:3px;
+}
+html[data-d2-theme="dark"] body .dashboard-shell .d2-nav,
+html[data-d2-theme="dark"] body .dashboard-shell .nav-link {
+  background:transparent!important;
+  color:#D2D2D8!important;
+  border-color:transparent!important;
+  box-shadow:none!important;
+}
+html[data-d2-theme="dark"] body .dashboard-shell .d2-nav:hover,
+html[data-d2-theme="dark"] body .dashboard-shell .nav-link:hover {
+  background:#36363B!important;
+  color:#FFF!important;
+}
+html[data-d2-theme="dark"] body .dashboard-shell .d2-nav[aria-current="page"],
+html[data-d2-theme="dark"] body .dashboard-shell .nav-link.active {
+  background:#F0F0F3!important;
+  color:#1C1C20!important;
+  border-color:transparent!important;
+  box-shadow:none!important;
+}
+html[data-d2-theme="dark"] body .d2-mobile-nav .d2-nav[aria-current="page"] {
+  background:#44444C!important;
+  color:#FFF!important;
+}
+html[data-d2-theme="dark"] body :is(
+  input,select,textarea,.input,.select,.textarea
+) {
+  background:#2D2D32!important;
+  color:#F5F5F7!important;
+  border-color:#55555E!important;
+  color-scheme:dark;
+}
+html[data-d2-theme="dark"] body :is(
+  .pill,.pill-live,.pill-demo,.segmented
+) {
+  background:#38383E!important;
+  border-color:#53535C!important;
+  color:#E7E7EC!important;
+}
