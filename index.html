@@ -8030,6 +8030,9 @@ html[data-d2-theme=dark] #school-calendar :is(.school-calendar-panel,.school-cal
             .replace('teacherAbbr: "YCH",', 'teacherAbbr: "",')
             .replace('teacherVerified: true,', 'teacherVerified: false,')
             .replace('platformDate: "2026-11-18",', 'platformDate: getHongKongToday(),');
+          // Shared monochrome palette for embedded MCDH timetable platform.
+          platformDocument = platformDocument.replace(/<\/head>/i, '<style>:root{--paper:#F5F5F7;--paper-deep:#ECECF1;--surface:#FFF;--surface-soft:#F9F9FB;--ink:#1D1D1F;--ink-2:#424247;--muted:#6E6E73;--line:#E5E5EA;--line-strong:#D1D1D6;--jade:#29292D;--jade-dark:#1D1D1F;--jade-tint:#E8E8ED;--blue:#424247;--gold:#6E6E73;color-scheme:light}body{background:#F5F5F7;color:#1D1D1F}header,.sidebar,.site-header{border-color:#E5E5EA}button.active,.active[role=tab],button[aria-selected=true],button[aria-pressed=true]{background:#E8E8ED;color:#1D1D1F}button:focus-visible,a:focus-visible{outline-color:#6E6E73}@media(prefers-color-scheme:dark){:root{--paper:#161618;--paper-deep:#202024;--surface:#2C2C2E;--surface-soft:#353538;--ink:#F5F5F7;--ink-2:#E0E0E5;--muted:#AEAEB2;--line:#48484A;--line-strong:#5B5B60;--jade:#D2D2D8;--jade-dark:#F5F5F7;--jade-tint:#39393F;--blue:#C2C2C9;--gold:#AEAEB2;color-scheme:dark}body{background:#161618;color:#F5F5F7}header,.sidebar,.site-header{border-color:#48484A}button.active,.active[role=tab],button[aria-selected=true],button[aria-pressed=true]{background:#39393F;color:#F5F5F7}}</style></head>');
+
           frame.srcdoc = platformDocument;
           state.platformLoaded = true;
           status.textContent = "正在載入內嵌平台…";
