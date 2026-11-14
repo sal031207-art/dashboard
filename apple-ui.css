@@ -350,3 +350,126 @@ html[data-d2-theme="dark"] body :is(
   border-color:#53535C!important;
   color:#E7E7EC!important;
 }
+
+
+/* 2026-11 dark-mode consistency: neutralize legacy teal/green surfaces.
+   Status semantics remain visible through icon/text, but generic chrome is graphite. */
+html[data-d2-theme="dark"] body {
+  --jade:#D0D0D6;
+  --jade-dark:#F2F2F5;
+  --jade-tint:#393940;
+  --blue:#B8B8C1;
+  --ai:#C4B8EC;
+  --ai-tint:#383341;
+  --grid-line:#45454B;
+}
+html[data-d2-theme="dark"] body :is(
+  .school-calendar-panel,.school-calendar-head,.school-calendar-body,
+  .school-calendar-grid,.school-calendar-agenda,.school-calendar-grid-wrap,
+  .weekly-schedule-panel,.weekly-schedule-head,.weekly-schedule-table,
+  .tool-card,.tool-head,.tool-body,.symbol-qr-pair,
+  .symbol-grid,.symbol-recent,.symbol-controls,
+  .qr-preview,.qr-placeholder,.tool-tabs,.engine-note,.dropzone,
+  .section-order-row,.d2-layout-row
+){
+  background-color:var(--surface)!important;
+  background-image:none!important;
+  color:var(--ink)!important;
+  border-color:var(--line)!important;
+}
+html[data-d2-theme="dark"] body :is(
+  .school-calendar-weekdays,.school-calendar-day,
+  .school-calendar-selected,.school-calendar-agenda,
+  .school-calendar-cell,.calendar-agenda-item,.calendar-agenda-list,
+  .calendar-empty-day,.agenda-item,.agenda-event,
+  .symbol-grid,.symbol-recent,.symbol-item,
+  .qr-preview,.qr-placeholder
+){
+  background-color:var(--surface-soft)!important;
+  color:var(--ink-2)!important;
+  border-color:var(--line)!important;
+}
+html[data-d2-theme="dark"] body .school-calendar-day.is-outside {
+  background:#202024!important;
+  color:#85858F!important;
+}
+html[data-d2-theme="dark"] body .school-calendar-day:hover,
+html[data-d2-theme="dark"] body .symbol-button:hover,
+html[data-d2-theme="dark"] body .symbol-button:focus-visible,
+html[data-d2-theme="dark"] body .calendar-control:hover{
+  background:#414149!important;
+  color:#FFFFFF!important;
+  border-color:#707079!important;
+}
+html[data-d2-theme="dark"] body .school-calendar-day.is-selected{
+  box-shadow:inset 0 0 0 2px #CDCDD5!important;
+}
+html[data-d2-theme="dark"] body .school-calendar-day.is-today .calendar-day-number{
+  background:#E9E9EE!important;color:#19191D!important;
+}
+html[data-d2-theme="dark"] body :is(
+  .calendar-week-label,.calendar-more-count,.calendar-agenda-heading span,
+  .symbol-source a,.school-calendar-title span
+){
+  color:#D2D2DB!important;
+}
+html[data-d2-theme="dark"] body .calendar-event-chip,
+html[data-d2-theme="dark"] body :is(
+  .calendar-event-chip.is-exam,.calendar-event-chip.is-activity,
+  .calendar-event-chip.is-assembly
+){
+  background:#35353C!important;
+  color:#E2E2E8!important;
+  border:1px solid #55555F!important;
+}
+html[data-d2-theme="dark"] body .calendar-event-chip.is-holiday{
+  background:#493438!important;
+  color:#F3B4BA!important;
+  border-color:#705056!important;
+}
+html[data-d2-theme="dark"] body .calendar-event-dot{background:#A2A2AE!important}
+html[data-d2-theme="dark"] body .calendar-event-chip.is-holiday .calendar-event-dot{background:#EC989B!important}
+html[data-d2-theme="dark"] body :is(.calendar-event-chip.is-exam,.calendar-event-chip.is-assembly) .calendar-event-dot{background:#B6B6C2!important}
+html[data-d2-theme="dark"] body .symbol-button{
+  background:#303036!important;
+  border:1px solid #54545D!important;
+  color:#F5F5F7!important;
+  box-shadow:none!important;
+}
+html[data-d2-theme="dark"] body :is(
+  .symbol-grid,.symbol-recent,.symbol-controls,.symbol-body,.symbol-recent-head,
+  .symbol-source
+) :is(button,select,input):not(.symbol-button){
+  accent-color:#D2D2D8;
+}
+html[data-d2-theme="dark"] body :is(
+  .calendar-control,.school-calendar-controls button,.symbol-controls button,
+  .symbol-recent-head button,.symbol-body button
+){
+  background:#303035!important;
+  background-image:none!important;
+  border:1px solid #53535C!important;
+  color:#F5F5F7!important;
+  box-shadow:none!important;
+}
+html[data-d2-theme="dark"] body :is(
+  .calendar-control,.school-calendar-controls button,.symbol-controls button,
+  .symbol-recent-head button,.symbol-body button
+):not(:disabled):hover{
+  background:#414148!important;
+  border-color:#73737C!important;
+}
+html[data-d2-theme="dark"] body :is(
+  .calendar-control.active,.calendar-control[aria-pressed="true"],
+  .symbol-controls button[aria-pressed="true"]
+){
+  background:#F0F0F3!important;color:#1C1C20!important;border-color:#F0F0F3!important;
+}
+html[data-d2-theme="dark"] body :is(
+  .school-icon,.custom-entry-icon,.quick-icon,.panel-title .icon,
+  .tool-head .icon
+){
+  background:#393940!important;
+  color:#E8E8EE!important;
+  border-color:#54545D!important;
+}
