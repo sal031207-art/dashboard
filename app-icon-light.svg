@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+<defs>
+ <linearGradient id="bg" x1="0" y1="1" x2="1" y2="0">
+  <stop stop-color="#E9EAEE"/><stop offset=".5" stop-color="#F8F9FB"/><stop offset="1" stop-color="#CBCDD3"/>
+ </linearGradient>
+ <linearGradient id="tile" x1="0" y1="0" x2="1" y2="1">
+  <stop stop-color="#E2E5EB" stop-opacity=".96"/><stop offset="1" stop-color="#B8BEC9" stop-opacity=".82"/>
+ </linearGradient>
+ <linearGradient id="frame" x1="0" y1="0" x2="1" y2="1">
+  <stop stop-color="#FFFFFF"/><stop offset="1" stop-color="#F3F5F9"/>
+ </linearGradient>
+</defs>
+<rect width="512" height="512" rx="108" fill="url(#bg)"/>
+<path d="M-55 407C78 250 160 242 280 291S480 264 553 136V560H-55Z" fill="#FFFFFF" opacity=".16"/>
+<path d="M-25 165C127 47 241 87 322 75S481 5 552-30" stroke="#FFFFFF" stroke-width="76" opacity=".08" fill="none"/>
+<rect x="88" y="89" width="336" height="334" rx="75" fill="#696C76" opacity=".3"/>
+<rect x="86" y="84" width="340" height="340" rx="78" fill="none" stroke="url(#frame)" stroke-width="22"/>
+<g fill="url(#tile)" stroke="#FFFFFF" stroke-opacity=".45" stroke-width="1.4">
+ <rect x="116" y="115" width="132" height="132" rx="30"/>
+ <rect x="264" y="115" width="132" height="132" rx="30"/>
+ <rect x="116" y="263" width="132" height="132" rx="30"/>
+ <rect x="264" y="263" width="132" height="132" rx="30"/>
+</g>
+<g stroke="white" fill="none" stroke-linecap="round" stroke-linejoin="round">
+ <rect x="148" y="152" width="68" height="63" rx="9" stroke-width="9"/>
+ <path d="M148 173h68M165 143v18M199 143v18" stroke-width="9"/>
+ <path d="M163 187h1M181 187h1M199 187h1M163 201h1M181 201h1" stroke-width="7"/>
+ <path d="m291 204 28-29 21 17 27-32" stroke-width="10"/>
+ <path d="M298 217v-13M321 217v-20M346 217v-15M370 217v-33" stroke-width="10"/>
+ <rect x="147" y="301" width="70" height="57" rx="10" stroke-width="9"/>
+ <path d="M162 316h13v14h-13z" fill="white" stroke="none"/>
+ <path d="M185 319h18M185 330h18M163 344h40" stroke-width="7"/>
+</g>
+<g fill="white">
+ <rect x="293" y="299" width="30" height="30" rx="11"/>
+ <rect x="337" y="299" width="30" height="30" rx="11"/>
+ <rect x="293" y="343" width="30" height="30" rx="11"/>
+ <rect x="337" y="343" width="30" height="30" rx="11"/>
+</g>
+</svg>
