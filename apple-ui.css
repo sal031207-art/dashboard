@@ -646,3 +646,40 @@ html:not([data-d2-theme="dark"]) body .school-calendar-day.is-today :is(
   box-shadow:none!important;
   border-color:transparent!important;
 }
+
+
+/* Desktop sidebar brand: monochrome iOS logo, no legacy green/jade.
+   Scope this to the brand mark only; navigation and app icons are unaffected. */
+@media (min-width: 769px) {
+  html body .dashboard-shell .sidebar :is(
+    .brand-mark,.brand-icon,.brand-logo,.d2-brand-mark,.d2-brand-icon,
+    .d2-logo,.sidebar-logo,.logo-mark
+  ),
+  html body .dashboard-shell > .sidebar :is(.brand-mark,.brand-icon,.brand-logo) {
+    background:#222226!important;
+    background-color:#222226!important;
+    background-image:none!important;
+    border-color:#48484E!important;
+    color:#FFFFFF!important;
+    box-shadow:none!important;
+  }
+  html[data-d2-theme="dark"] body .dashboard-shell .sidebar :is(
+    .brand-mark,.brand-icon,.brand-logo,.d2-brand-mark,.d2-brand-icon,
+    .d2-logo,.sidebar-logo,.logo-mark
+  ) {
+    background:#F0F0F3!important;
+    background-color:#F0F0F3!important;
+    background-image:none!important;
+    color:#1C1C20!important;
+    border-color:#F0F0F3!important;
+    box-shadow:none!important;
+  }
+  html body .dashboard-shell .sidebar :is(
+    .brand-mark,.brand-icon,.brand-logo,.d2-brand-mark,.d2-brand-icon,
+    .d2-logo,.sidebar-logo,.logo-mark
+  ) :is(svg,i) {
+    color:inherit!important;
+    fill:currentColor;
+    stroke:currentColor;
+  }
+}
