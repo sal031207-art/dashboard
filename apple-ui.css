@@ -683,3 +683,58 @@ html:not([data-d2-theme="dark"]) body .school-calendar-day.is-today :is(
     stroke:currentColor;
   }
 }
+
+
+/* Four-square "教師工作台" emblem: remove teal fills and glow.
+   Includes SVG/image logos and desktop brand wrappers, not navigation icons. */
+@media (min-width: 769px) {
+  html body .dashboard-shell .sidebar :is(
+    .brand,.d2-brand,.sidebar-brand,.brand-header,.sidebar-header,.sidebar-branding,
+    .brand-row,.d2-side-brand
+  ) :is(.brand-mark,.brand-icon,.brand-logo,.brand-symbol,.logo,.logo-icon,
+        .logo-mark,.d2-brand-mark,.d2-brand-icon,.d2-logo,.sidebar-logo),
+  html body .dashboard-shell .sidebar :is(
+    .brand-mark,.brand-icon,.brand-logo,.brand-symbol,.logo-mark,
+    .d2-brand-mark,.d2-brand-icon,.d2-logo,.sidebar-logo
+  ) {
+    background:#29292D!important;
+    background-color:#29292D!important;
+    background-image:none!important;
+    border-color:#44444C!important;
+    box-shadow:none!important;
+    filter:grayscale(1)!important;
+    color:#F5F5F7!important;
+  }
+  html[data-d2-theme="light"] body .dashboard-shell .sidebar :is(
+    .brand-mark,.brand-icon,.brand-logo,.brand-symbol,.logo-mark,
+    .d2-brand-mark,.d2-brand-icon,.d2-logo,.sidebar-logo
+  ) {
+    background:#222226!important;
+    color:#FFFFFF!important;
+  }
+  html[data-d2-theme="dark"] body .dashboard-shell .sidebar :is(
+    .brand-mark,.brand-icon,.brand-logo,.brand-symbol,.logo-mark,
+    .d2-brand-mark,.d2-brand-icon,.d2-logo,.sidebar-logo
+  ) {
+    background:#39393E!important;
+    color:#F5F5F7!important;
+  }
+  html body .dashboard-shell .sidebar :is(
+    .brand,.d2-brand,.sidebar-brand,.brand-header,.sidebar-header,.sidebar-branding,
+    .brand-row,.d2-side-brand
+  ) > :is(svg,img),
+  html body .dashboard-shell .sidebar :is(
+    .brand-mark,.brand-icon,.brand-logo,.brand-symbol,.logo-mark,
+    .d2-brand-mark,.d2-brand-icon,.d2-logo,.sidebar-logo
+  ) :is(svg,img) {
+    filter:grayscale(1) brightness(1.22)!important;
+    box-shadow:none!important;
+    color:inherit!important;
+  }
+  html body .dashboard-shell .sidebar :is(
+    .brand-mark,.brand-icon,.brand-logo,.brand-symbol,.logo-mark,
+    .d2-brand-mark,.d2-brand-icon,.d2-logo,.sidebar-logo
+  ) :is(svg,i) * {
+    stroke:currentColor!important;
+  }
+}
