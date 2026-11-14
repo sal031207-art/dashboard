@@ -1,0 +1,105 @@
+name: Install adaptive light and dark app icons
+on:
+  push:
+    branches: [main]
+    paths: [.github/workflows/install-adaptive-icons.yml]
+permissions:
+  contents: write
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Render adaptive icons
+        run: |
+          python3 -m pip install --quiet cairosvg pillow
+          python3 - <<'PY'
+          import io
+          from pathlib import Path
+          import cairosvg
+          from PIL import Image
+          for mode in ('light','dark'):
+              source=Path(f'app-icon-{mode}.svg').read_bytes()
+              for size in (180,192,512):
+                  png=cairosvg.svg2png(bytestring=source,output_width=size,output_height=size)
+                  im=Image.open(io.BytesIO(png)).convert('RGB')
+                  im.save(f'app-icon-{mode}-{size}.png',optimize=True)
+          PY
+      - name: Add manifest and adaptive icon links
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          for mode in ('light','dark'):
+              manifest={'id':'./','name':'教師工作台','short_name':'教師工作台','lang':'zh-Hant-HK',
+                 'start_url':'./','scope':'./','display':'standalone',
+                 'background_color':'#F5F5F7' if mode=='light' else '#111113',
+                 'theme_color':'#F5F5F7' if mode=='light' else '#111113',
+                 'icons':[{'src':f'./app-icon-{mode}-{size}.png','sizes':f'{size}x{size}',
+                            'type':'image/png','purpose':'any'} for size in (192,512)]}
+              Path(f'manifest-{mode}.webmanifest').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n',encoding='utf8')
+          p=Path('index.html'); html=p.read_text(encoding='utf8')
+          old='''<link rel="icon" type="image/svg+xml" href="./app-icon.svg?v=2">
+          <link rel="icon" type="image/png" sizes="192x192" href="./app-icon-192.png?v=2">
+          <link rel="shortcut icon" href="./favicon.ico?v=2">
+          <link rel="apple-touch-icon" sizes="180x180" href="./app-icon-180.png?v=2">
+          <link rel="manifest" href="./manifest.webmanifest?v=2">'''
+          new='''<link id="adaptiveFavicon" rel="icon" type="image/svg+xml" href="./app-icon-light.svg?v=3">
+          <link id="adaptiveAppleIcon" rel="apple-touch-icon" sizes="180x180" href="./app-icon-light-180.png?v=3">
+          <link id="adaptiveAppManifest" rel="manifest" href="./manifest-light.webmanifest?v=3">'''
+          assert html.count(old)==1, 'Icon markup unexpected; refusing modification'
+          html=html.replace(old,new,1)
+          script='''<script id="adaptiveAppIconController">
+          (function(){
+            var mq=window.matchMedia('(prefers-color-scheme: dark)');
+            function applyIcons(){
+              var saved=document.documentElement.getAttribute('data-d2-theme');
+              var mode=saved==='light'||saved==='dark'?saved:(mq.matches?'dark':'light');
+              var suffix=mode==='dark'?'dark':'light';
+              var fav=document.getElementById('adaptiveFavicon');
+              var apple=document.getElementById('adaptiveAppleIcon');
+              var manifest=document.getElementById('adaptiveAppManifest');
+              if(fav)fav.href='./app-icon-'+suffix+'.svg?v=3';
+              if(apple)apple.href='./app-icon-'+suffix+'-180.png?v=3';
+              if(manifest)manifest.href='./manifest-'+suffix+'.webmanifest?v=3';
+            }
+            new MutationObserver(applyIcons).observe(document.documentElement,{attributes:true,attributeFilter:['data-d2-theme']});
+            if(mq.addEventListener)mq.addEventListener('change',applyIcons);
+            else if(mq.addListener)mq.addListener(applyIcons);
+            if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',applyIcons,{once:true});
+            else applyIcons();
+          })();
+          </script>
+          '''
+          assert 'adaptiveAppIconController' not in html
+          assert html.count('</head>')==1
+          html=html.replace('</head>',script+'</head>',1)
+          p.write_text(html,encoding='utf8')
+          PY
+      - name: Static validation
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from PIL import Image
+          import json
+          s=Path('index.html').read_text(encoding='utf8')
+          assert s.count('id="adaptiveAppIconController"')==1
+          assert s.count('id="adaptiveFavicon"')==1
+          assert s.count('id="adaptiveAppleIcon"')==1
+          assert s.count('id="adaptiveAppManifest"')==1
+          assert 'data-d2-theme' in s
+          for mode in ('light','dark'):
+              data=json.loads(Path(f'manifest-{mode}.webmanifest').read_text(encoding='utf8'))
+              assert len(data['icons'])==2
+              for size in (180,192,512):
+                  with Image.open(f'app-icon-{mode}-{size}.png') as img: assert img.size==(size,size)
+          assert 'apple-ui.css?v=1' in s
+          PY
+      - name: Commit assets and remove temporary workflow
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html manifest-light.webmanifest manifest-dark.webmanifest app-icon-light-*.png app-icon-dark-*.png
+          git rm .github/workflows/install-adaptive-icons.yml
+          git commit -m "style: support separate iOS app icons for light and dark mode"
+          git push
