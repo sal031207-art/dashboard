@@ -566,3 +566,34 @@ html[data-d2-theme="dark"] body .d2-mobile-nav :is(
 ):is(.active,.selected,[aria-current="page"],[aria-selected="true"],[aria-pressed="true"]):hover {
   background:#505058!important;
 }
+
+
+/* Light calendar: replace orange today highlight with subtle iOS graphite. */
+html:not([data-d2-theme="dark"]) body #schoolCalendarGrid .school-calendar-day.is-today {
+  background:#F3F3F6!important;
+  background-image:none!important;
+  color:#1D1D1F!important;
+  border-color:#C7C7CE!important;
+  box-shadow:inset 0 0 0 1px #C7C7CE!important;
+  -webkit-text-fill-color:initial!important;
+}
+html:not([data-d2-theme="dark"]) body #schoolCalendarGrid .school-calendar-day.is-today.is-selected {
+  background:#E8E8ED!important;
+  border-color:#8E8E93!important;
+  box-shadow:inset 0 0 0 2px #8E8E93!important;
+}
+html:not([data-d2-theme="dark"]) body #schoolCalendarGrid .school-calendar-day.is-today .calendar-day-number {
+  background:#E0E0E5!important;
+  background-image:none!important;
+  color:#1D1D1F!important;
+  -webkit-text-fill-color:#1D1D1F!important;
+  border:0!important;
+  border-radius:9px!important;
+  box-shadow:none!important;
+}
+html:not([data-d2-theme="dark"]) body #schoolCalendarGrid .school-calendar-day.is-today :is(
+  .calendar-week-label,.calendar-more-count,.calendar-event-text
+) {
+  color:#424247!important;
+  -webkit-text-fill-color:currentColor!important;
+}
