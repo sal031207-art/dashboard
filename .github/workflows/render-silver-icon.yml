@@ -1,0 +1,34 @@
+name: Render silver icon variants
+on:
+  push:
+    branches: [main]
+    paths: [.github/workflows/render-silver-icon.yml]
+permissions:
+  contents: write
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup renderer
+        run: python3 -m pip install --quiet cairosvg pillow
+      - name: Render PNGs
+        run: |
+          python3 - <<'PY'
+          import io,cairosvg
+          from pathlib import Path
+          from PIL import Image
+          source=Path('app-icon-light.svg').read_bytes()
+          for size in (180,192,512):
+              png=cairosvg.svg2png(bytestring=source,output_width=size,output_height=size)
+              img=Image.open(io.BytesIO(png)).convert('RGB')
+              img.save(f'app-icon-light-{size}.png', optimize=True)
+          PY
+      - name: Commit raster files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add app-icon-light-180.png app-icon-light-192.png app-icon-light-512.png
+          if git diff --staged --quiet; then echo "No icon differences"; exit 0; fi
+          git commit -m "style: update light icon raster images"
+          git push origin HEAD:main
