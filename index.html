@@ -7140,6 +7140,11 @@ html[data-d2-theme=dark] #school-calendar :is(.school-calendar-panel,.school-cal
       const teacherSelect = $("#teacherSelect");
       teacherSelect.innerHTML = '<optgroup label="教師">' + weeklyData.teachers
         .filter(teacher => teacher.fullName !== "待核對")
+        .sort((a, b) => {
+          const aClass = teacherClassCode(a);
+          const bClass = teacherClassCode(b);
+          return aClass && bClass ? aClass.localeCompare(bClass, "en", { numeric: true }) : aClass ? -1 : bClass ? 1 : 0;
+        })
         .map(teacher =>
         '<option value="' + escapeHtml(teacher.id) + '">' +
           escapeHtml(teacherDisplayLabel(teacher)) +
@@ -7390,7 +7395,7 @@ html[data-d2-theme=dark] #school-calendar :is(.school-calendar-panel,.school-cal
         });
         entries.unshift({ sort: "08:15", html: '<div class="ych-mobile-lesson"><time>08:15–08:40</time><div><strong>' + escapeHtml(morningClassTeacher[index]) + '</strong><span>' + escapeHtml(classTeacherLabel) + '</span></div></div>' });
         duties.filter(item => item.day === day).forEach(item => {
-          entries.push({ sort: item.timeNormal || "23:59", html: '<div class="ych-mobile-lesson" data-duty="true"><time>' + escapeHtml(item.timeNormal || "") + '</time><div><strong>' + escapeHtml(dutyLocationLabel(item.location)) + '</strong></div></div>' });
+          entries.push({ sort: item.timeNormal || "23:59", html: '<div class="ych-mobile-lesson" data-duty="true"><time>' + escapeHtml(item.timeNormal || "") + '</time><div><strong>當值 · ' + escapeHtml(dutyLocationLabel(item.location)) + '</strong></div></div>' });
         });
         entries.push({ sort: "15:35", html: '<div class="ych-mobile-lesson"><time>15:35–15:45</time><div><strong>' + escapeHtml(classTeacherLabel) + '</strong><span>放學後</span></div></div>' });
         const contentHtml = entries.sort((a, b) => a.sort.localeCompare(b.sort)).map(item => item.html).join("");
@@ -14558,7 +14563,7 @@ function d2RenderMobile(){
   for(const bell of data.bells){if(classes.some(x=>x.day===index+1&&x.startPeriod<=bell.period&&(x.endPeriod||x.startPeriod)>=bell.period))continue;
    const row=document.createElement('div');row.className='ych-mobile-lesson d2-free';row.innerHTML='<time>'+escapeHtml(bell.start+'–'+bell.end)+'</time><div><strong>空堂</strong><span>第 '+bell.period+' 節</span></div>';entries.push(row);
   }
-  for(const item of breaks){const range=item.time.match(/\d{2}:\d{2}/g)||[],within=value=>{const times=String(value||'').match(/\d{2}:\d{2}/g)||[];return times.length===2&&range.length===2&&times[0]>=range[0]&&times[1]<=range[1]},matched=duties.filter(d=>within(d.timeNormal));for(let i=entries.length-1;i>=0;i--)if(entries[i].dataset.duty==='true'&&within(entries[i].querySelector('time')?.textContent)){entries[i].remove();entries.splice(i,1);}const row=document.createElement('div');row.className='ych-mobile-lesson d2-break'+(matched.length?' d2-duty-lesson':'');row.dataset.breakKind=item.label;row.innerHTML='<time>'+escapeHtml(item.time)+'</time><div><strong>'+escapeHtml(item.label)+'</strong>'+matched.map(d=>{const times=String(d.timeNormal).match(/\d{2}:\d{2}/g)||[],partial=times.join('–')!==range.join('–');return '<span>'+escapeHtml([partial?d.timeNormal:'',dutyLocationLabel(d.location)].filter(Boolean).join(' · '))+'</span>'}).join('')+'</div>';entries.push(row)}
+  for(const item of breaks){const range=item.time.match(/\d{2}:\d{2}/g)||[],within=value=>{const times=String(value||'').match(/\d{2}:\d{2}/g)||[];return times.length===2&&range.length===2&&times[0]>=range[0]&&times[1]<=range[1]},matched=duties.filter(d=>within(d.timeNormal));for(let i=entries.length-1;i>=0;i--)if(entries[i].dataset.duty==='true'&&within(entries[i].querySelector('time')?.textContent)){entries[i].remove();entries.splice(i,1);}const row=document.createElement('div');row.className='ych-mobile-lesson d2-break'+(matched.length?' d2-duty-lesson':'');row.dataset.breakKind=item.label;row.innerHTML='<time>'+escapeHtml(item.time)+'</time><div><strong>'+escapeHtml(item.label+(matched.length?' · 當值':''))+'</strong>'+matched.map(d=>{const times=String(d.timeNormal).match(/\d{2}:\d{2}/g)||[],partial=times.join('–')!==range.join('–');return '<span>'+escapeHtml([partial?d.timeNormal:'',dutyLocationLabel(d.location)].filter(Boolean).join(' · '))+'</span>'}).join('')+'</div>';entries.push(row)}
   entries.sort((a,b)=>(a.querySelector('time')?.textContent||'').slice(0,5).localeCompare((b.querySelector('time')?.textContent||'').slice(0,5))||Number(b.classList.contains('d2-break'))-Number(a.classList.contains('d2-break')));entries.forEach(row=>day.append(row));
  });
  host.hidden=false;document.querySelectorAll('[data-d2-day]').forEach(b=>b.setAttribute('aria-pressed',String(Number(b.dataset.d2Day)===d2Day)));
