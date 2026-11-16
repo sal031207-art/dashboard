@@ -6151,7 +6151,7 @@ html[data-d2-theme=dark] #school-calendar :is(.school-calendar-panel,.school-cal
 @media(max-width:760px){
   .d2-card #newsGrid.news-grid{grid-template-columns:1fr!important}
 }
-</style>  <link rel="stylesheet" href="./apple-ui.css?v=4">
+</style>  <link rel="stylesheet" href="./apple-ui.css?v=5">
 <script id="adaptiveAppIconController">
 (function(){
   var mq=window.matchMedia('(prefers-color-scheme: dark)');
@@ -7354,7 +7354,7 @@ html[data-d2-theme=dark] #school-calendar :is(.school-calendar-panel,.school-cal
               (duty ? '<span class="schedule-duty-cell"><span class="schedule-duty-time">當值 ' + scheduleTimeRangeMarkup(duty.timeNormal || "時間未列明") + '</span><span class="schedule-duty-location">' + escapeHtml(duty.location || "地點未列明") + '</span></span>' : "") +
             '</td>';
           }).join("");
-          return '<tr class="schedule-break-row"><td class="schedule-special-label"><span class="schedule-special-name">' + escapeHtml(row.label) + '</span><small>' + scheduleTimeRangeMarkup(row.time) + '</small></td>' + cells + '</tr>';
+          return '<tr class="schedule-break-row" data-break-kind="' + escapeHtml(row.label) + '"><td class="schedule-special-label"><span class="schedule-special-name">' + escapeHtml(row.label) + '</span><small>' + scheduleTimeRangeMarkup(row.time) + '</small></td>' + cells + '</tr>';
         }
         const dayCells = Array.from({ length: 5 }, (_, index) => {
           const day = index + 1;
@@ -14554,7 +14554,7 @@ function d2RenderMobile(){
   for(const bell of data.bells){if(classes.some(x=>x.day===index+1&&x.startPeriod<=bell.period&&(x.endPeriod||x.startPeriod)>=bell.period))continue;
    const row=document.createElement('div');row.className='ych-mobile-lesson d2-free';row.innerHTML='<time>'+escapeHtml(bell.start+'–'+bell.end)+'</time><div><strong>空堂</strong><span>第 '+bell.period+' 節</span></div>';entries.push(row);
   }
-  for(const item of breaks){const range=item.time.match(/\d{2}:\d{2}/g)||[],within=value=>{const times=String(value||'').match(/\d{2}:\d{2}/g)||[];return times.length===2&&range.length===2&&times[0]>=range[0]&&times[1]<=range[1]},matched=duties.filter(d=>within(d.timeNormal));for(let i=entries.length-1;i>=0;i--)if(entries[i].querySelector('strong')?.textContent.startsWith('當值：')&&within(entries[i].querySelector('time')?.textContent)){entries[i].remove();entries.splice(i,1);}const row=document.createElement('div');row.className='ych-mobile-lesson d2-break'+(matched.length?' d2-duty-lesson':'');row.innerHTML='<time>'+escapeHtml(item.time)+'</time><div><strong>'+escapeHtml(item.label+(matched.length?' · 當值':''))+'</strong>'+matched.map(d=>{const times=String(d.timeNormal).match(/\d{2}:\d{2}/g)||[],partial=times.join('–')!==range.join('–');return '<span>'+escapeHtml([partial?d.timeNormal:'',d.location||'地點未列明'].filter(Boolean).join(' · '))+'</span>'}).join('')+'</div>';entries.push(row)}
+  for(const item of breaks){const range=item.time.match(/\d{2}:\d{2}/g)||[],within=value=>{const times=String(value||'').match(/\d{2}:\d{2}/g)||[];return times.length===2&&range.length===2&&times[0]>=range[0]&&times[1]<=range[1]},matched=duties.filter(d=>within(d.timeNormal));for(let i=entries.length-1;i>=0;i--)if(entries[i].querySelector('strong')?.textContent.startsWith('當值：')&&within(entries[i].querySelector('time')?.textContent)){entries[i].remove();entries.splice(i,1);}const row=document.createElement('div');row.className='ych-mobile-lesson d2-break'+(matched.length?' d2-duty-lesson':'');row.dataset.breakKind=item.label;row.innerHTML='<time>'+escapeHtml(item.time)+'</time><div><strong>'+escapeHtml(item.label+(matched.length?' · 當值':''))+'</strong>'+matched.map(d=>{const times=String(d.timeNormal).match(/\d{2}:\d{2}/g)||[],partial=times.join('–')!==range.join('–');return '<span>'+escapeHtml([partial?d.timeNormal:'',d.location||'地點未列明'].filter(Boolean).join(' · '))+'</span>'}).join('')+'</div>';entries.push(row)}
   entries.sort((a,b)=>(a.querySelector('time')?.textContent||'').slice(0,5).localeCompare((b.querySelector('time')?.textContent||'').slice(0,5))||Number(b.classList.contains('d2-break'))-Number(a.classList.contains('d2-break')));entries.forEach(row=>day.append(row));
  });
  host.hidden=false;document.querySelectorAll('[data-d2-day]').forEach(b=>b.setAttribute('aria-pressed',String(Number(b.dataset.d2Day)===d2Day)));
@@ -14741,7 +14741,7 @@ function initD2ToolDrag(signal){
     enableTraditionalUI();
     boot();
   </script>
-<script src="./class-timetables.js?v=2"></script>
+<script src="./class-timetables.js?v=3"></script>
 <script src="./timetable-controls.js?v=2"></script>
 </body>
 </html>

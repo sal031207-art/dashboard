@@ -804,3 +804,33 @@ html body #toastRegion .toast :is(span,svg){color:inherit!important}
 html[data-d2-theme="dark"] body #toastRegion .toast{background:#353538!important;color:#F5F5F7!important;border-color:#5B5B60!important}
 @media(min-width:1101px){html body #mainContent>:is(#weekly-schedule,#school-calendar){grid-column:span 6!important}}
 @media(max-width:1100px){html body #mainContent>:is(#weekly-schedule,#school-calendar){grid-column:1 / -1!important}}
+/* Neutral modal scrim; keep the dashboard palette visible behind dialogs. */
+html body dialog::backdrop{background:rgba(0,0,0,.38)!important;backdrop-filter:blur(2px)!important;-webkit-backdrop-filter:blur(2px)!important}
+html[data-d2-theme="dark"] body dialog::backdrop{background:rgba(0,0,0,.5)!important}
+/* Compact rows with room for subject, location and duty text. */
+html body #mainContent #weekly-schedule .weekly-schedule-table td{height:40px!important;padding:4px 5px!important;line-height:1.25}
+html body #mainContent #weekly-schedule .weekly-schedule-table th{padding:6px 5px!important}
+html body #weekly-schedule .schedule-cell-item{gap:1px;line-height:1.3}
+html body #mainContent #weekly-schedule .weekly-schedule-table tr.schedule-break-row>td{height:34px!important}
+html body #mainContent #weekly-schedule .weekly-schedule-table tr.schedule-break-row[data-break-kind]>td{background:#EAF3F5!important;color:#244A55!important}
+html body #mainContent #weekly-schedule .weekly-schedule-table tr.schedule-break-row[data-break-kind="午膳"]>td{background:#FFF2D9!important;color:#684C1D!important}
+html[data-d2-theme="dark"] body #mainContent #weekly-schedule .weekly-schedule-table tr.schedule-break-row[data-break-kind]>td{background:#253A42!important;color:#DCEEF3!important}
+html[data-d2-theme="dark"] body #mainContent #weekly-schedule .weekly-schedule-table tr.schedule-break-row[data-break-kind="午膳"]>td{background:#443925!important;color:#F7E5BE!important}
+html body #weekly-schedule tr.schedule-break-row .schedule-special-label :is(small,.schedule-special-name){color:inherit!important}
+html body #weekly-schedule .ych-mobile-lesson.d2-break{background:#EAF3F5!important;color:#244A55!important;padding:8px 10px!important}
+html body #weekly-schedule .ych-mobile-lesson[data-break-kind="午膳"]{background:#FFF2D9!important;color:#684C1D!important}
+html[data-d2-theme="dark"] body #weekly-schedule .ych-mobile-lesson.d2-break{background:#253A42!important;color:#DCEEF3!important}
+html[data-d2-theme="dark"] body #weekly-schedule .ych-mobile-lesson[data-break-kind="午膳"]{background:#443925!important;color:#F7E5BE!important}
+html body #weekly-schedule .ych-mobile-lesson.d2-break :is(strong,time){color:inherit!important}
+html body #weekly-schedule .ych-mobile-lesson{padding-top:9px!important;padding-bottom:9px!important;min-height:0!important}
+@media(min-width:761px){
+ html body #mainContent[data-d2-route] > #school-calendar{contain:none!important;height:auto!important;align-self:start;min-height:0!important}
+ html body #mainContent[data-d2-route] #school-calendar :is(.section-collapsible-body,.school-calendar-panel,.school-calendar-body,.school-calendar-grid-wrap){flex:0 1 auto!important}
+ html body #mainContent[data-d2-route] #schoolCalendarGrid{flex:none!important;grid-template-rows:none!important;grid-auto-rows:minmax(96px,auto)!important;min-height:0!important;height:auto!important}
+ html body #mainContent[data-d2-route] #schoolCalendarGrid .school-calendar-day{min-height:96px!important;height:auto!important;padding:6px!important;gap:3px!important;overflow:visible!important}
+ html body #schoolCalendarGrid .calendar-event-chip{padding:2px 3px!important;line-height:1.25!important}
+}
+@media(min-width:761px){
+ html body #mainContent #schoolCalendarGrid .calendar-event-chip{max-height:32px!important;overflow:hidden!important}
+ html body #mainContent #schoolCalendarGrid .calendar-event-text{display:-webkit-box!important;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden!important;line-height:1.25!important}
+}
