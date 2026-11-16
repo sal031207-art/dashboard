@@ -738,3 +738,44 @@ html:not([data-d2-theme="dark"]) body .school-calendar-day.is-today :is(
     stroke:currentColor!important;
   }
 }
+
+
+/* Dark dropdown menus: suppress legacy green in native and custom selects. */
+html[data-d2-theme="dark"] {
+  accent-color:#A6A6AF;
+}
+html[data-d2-theme="dark"] body :is(select, .select, [role="combobox"], [aria-haspopup="listbox"]) {
+  background-color:#2D2D32!important;
+  color:#F5F5F7!important;
+  border-color:#55555E!important;
+  accent-color:#A6A6AF!important;
+  color-scheme:dark;
+}
+html[data-d2-theme="dark"] body select :is(option,optgroup) {
+  background-color:#2D2D32!important;
+  color:#F5F5F7!important;
+}
+html[data-d2-theme="dark"] body select option:checked {
+  background:linear-gradient(#505058,#505058)!important;
+  background-color:#505058!important;
+  color:#FFFFFF!important;
+}
+html[data-d2-theme="dark"] body :is(
+  [role="listbox"],[role="menu"],.dropdown-menu,.dropdown-content,
+  .select-options,.select-menu,.custom-select-options
+) {
+  background-color:#2D2D32!important;
+  border-color:#55555E!important;
+  color:#F5F5F7!important;
+}
+html[data-d2-theme="dark"] body :is(
+  [role="listbox"],.dropdown-menu,.dropdown-content,
+  .select-options,.select-menu,.custom-select-options
+) :is([role="option"],option,.dropdown-item,.select-option,[data-selected="true"]):is(
+  :hover,:focus,:focus-visible,[aria-selected="true"],[data-selected="true"],.active,.selected
+) {
+  background:#505058!important;
+  background-image:none!important;
+  color:#FFFFFF!important;
+  border-color:#6A6A73!important;
+}
