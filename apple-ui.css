@@ -802,3 +802,5 @@ html[data-d2-theme="dark"] body>.themed-select-menu [role=option]:is(:hover,.is-
 html body #toastRegion .toast{background:#F5F5F7!important;color:#1D1D1F!important;border:1px solid #D1D1D6!important}
 html body #toastRegion .toast :is(span,svg){color:inherit!important}
 html[data-d2-theme="dark"] body #toastRegion .toast{background:#353538!important;color:#F5F5F7!important;border-color:#5B5B60!important}
+@media(min-width:1101px){html body #mainContent>:is(#weekly-schedule,#school-calendar){grid-column:span 6!important}}
+@media(max-width:1100px){html body #mainContent>:is(#weekly-schedule,#school-calendar){grid-column:1 / -1!important}}

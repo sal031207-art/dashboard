@@ -18,7 +18,8 @@ window.renderClassTimetable = (code, mode) => {
  document.querySelector('#ychScheduleBody').innerHTML=rows.map((row,r)=>'<tr'+(row.label&&r!==13?' class="schedule-break-row"':'')+'><td class="schedule-special-label">'+(row.label?'<span class="schedule-special-name">'+row.label+'</span>':'')+'<small><span class="schedule-time-range">'+row.time+'</span></small></td>'+row.values.map((value,d)=>{
   if(skip.has(r+'-'+d))return '';
   let span=1;
-  if(value&&r>0&&r<13&&!row.label)while(r+span<13&&!rows[r+span].label&&rows[r+span].values[d]===value){skip.add((r+span)+'-'+d);span++;}
+  if(d===2 && r===10){span=3;skip.add("11-2");skip.add("12-2");}
+
   return '<td rowspan="'+span+'" data-schedule-day="'+(d+1)+'"'+(span>1?' class="is-multi-period"':'')+'>'+(value?'<span class="schedule-cell-item"><strong>'+classEscape(value).replace(/\n/g,'<br>')+'</strong></span>':'')+'</td>';
  }).join('')+'</tr>').join('');
  window.renderClassMobile(code,mode);

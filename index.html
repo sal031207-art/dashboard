@@ -6151,7 +6151,7 @@ html[data-d2-theme=dark] #school-calendar :is(.school-calendar-panel,.school-cal
 @media(max-width:760px){
   .d2-card #newsGrid.news-grid{grid-template-columns:1fr!important}
 }
-</style>  <link rel="stylesheet" href="./apple-ui.css?v=3">
+</style>  <link rel="stylesheet" href="./apple-ui.css?v=4">
 <script id="adaptiveAppIconController">
 (function(){
   var mq=window.matchMedia('(prefers-color-scheme: dark)');
@@ -7298,7 +7298,7 @@ html[data-d2-theme=dark] #school-calendar :is(.school-calendar-panel,.school-cal
       $(".weekly-schedule-table").setAttribute("aria-label", teacher.fullName + " 每周時間表");
       const classes = mergeYchScheduleItems(
         weeklyData.classes.filter(item => item.teacher === teacher.id && item.week === mode && item.day >= 1 && item.day <= 5)
-      );
+      ).flatMap(item => item.day === 3 && item.startPeriod === 7 && item.endPeriod === 9 ? [item] : expandYchScheduleItemsForCards([item]));
       const cardClasses = expandYchScheduleItemsForCards(classes);
       const duties = weeklyData.duties.filter(item =>
         item.teacher === teacher.id && item.week === (mode === "single" ? "單周" : "雙周")
@@ -14536,7 +14536,7 @@ d2Media.addEventListener('change',()=>{if(d2Theme==='system')d2ApplyTheme()});
 d2ApplyTheme();
 let d2Day=Math.min(5,Math.max(1,new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Hong_Kong'})).getDay()));
 let d2Cleanup=()=>{};
-function d2FillRows(){const main=document.getElementById('mainContent');if(!main)return;if(main.dataset.d2Route==='school'){for(const n of main.querySelectorAll(':scope>.d2-card')){n.style.removeProperty('grid-column');if(n.hidden||n.classList.contains('d2-route-hidden'))continue;n.style.setProperty('grid-column',innerWidth<1280||n.id==='school'?'1 / -1':'span 6','important')}return;}const mobile=innerWidth<=760,tablet=innerWidth<=1100,cols=mobile?2:12;let total=0,last=null,lastSpan=0;for(const n of main.querySelectorAll(':scope>.d2-card')){n.style.removeProperty('grid-column');if(n.hidden||n.classList.contains('d2-route-hidden'))continue;const size=n.dataset.d2Size;const span=!mobile&&n.id==='d2-agenda'?6:!mobile&&n.id==='d2-weather'?6:mobile?(n.classList.contains('d2-mini-index')&&size==='standard'?1:2):(size==='full'?12:size==='wide'?(tablet?12:8):(tablet?6:4));if(total+span>cols){if(last&&total<cols)last.style.setProperty('grid-column','span '+(lastSpan+cols-total),'important');total=0}if(!mobile&&['d2-agenda','d2-weather'].includes(n.id))n.style.setProperty('grid-column','span '+span,'important');total+=span;last=n;lastSpan=span;if(total===cols){total=0;last=null}}if(last&&total<cols)last.style.setProperty('grid-column','span '+(lastSpan+cols-total),'important')}
+function d2FillRows(){const main=document.getElementById('mainContent');if(!main)return;if(main.dataset.d2Route==='school'){for(const n of main.querySelectorAll(':scope>.d2-card')){n.style.removeProperty('grid-column');if(n.hidden||n.classList.contains('d2-route-hidden'))continue;n.style.setProperty('grid-column',innerWidth<1280||n.id==='school'?'1 / -1':'span 6','important')}return;}const mobile=innerWidth<=760,tablet=innerWidth<=1100,cols=mobile?2:12;let total=0,last=null,lastSpan=0;for(const n of main.querySelectorAll(':scope>.d2-card')){n.style.removeProperty('grid-column');if(n.hidden||n.classList.contains('d2-route-hidden'))continue;const size=n.dataset.d2Size;const span=!mobile&&['weekly-schedule','school-calendar'].includes(n.id)?(tablet?12:6):!mobile&&n.id==='d2-agenda'?6:!mobile&&n.id==='d2-weather'?6:mobile?(n.classList.contains('d2-mini-index')&&size==='standard'?1:2):(size==='full'?12:size==='wide'?(tablet?12:8):(tablet?6:4));if(total+span>cols){if(last&&total<cols)last.style.setProperty('grid-column','span '+(lastSpan+cols-total),'important');total=0}if(!mobile&&['d2-agenda','d2-weather'].includes(n.id))n.style.setProperty('grid-column','span '+span,'important');total+=span;last=n;lastSpan=span;if(total===cols){total=0;last=null}}if(last&&total<cols)last.style.setProperty('grid-column','span '+(lastSpan+cols-total),'important')}
 function d2RenderMobile(){
  if(state.selectedTeacherId.startsWith("class:")){window.renderClassMobile(state.selectedTeacherId.slice(6),state.ychWeekMode,d2Day);return;}
  const host=document.getElementById('ychMobileSchedule');if(!host)return;
@@ -14741,9 +14741,7 @@ function initD2ToolDrag(signal){
     enableTraditionalUI();
     boot();
   </script>
-<script src="./class-timetables.js?v=1"></script>
+<script src="./class-timetables.js?v=2"></script>
 <script src="./timetable-controls.js?v=2"></script>
 </body>
 </html>
-
-
