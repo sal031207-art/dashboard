@@ -779,3 +779,27 @@ html[data-d2-theme="dark"] body :is(
   color:#FFFFFF!important;
   border-color:#6A6A73!important;
 }
+
+/* Neutral dropdown popups, independent of the operating system accent color. */
+.themed-select{display:inline-block;position:relative;max-width:100%;min-width:0}
+.themed-select>select[hidden]{display:none!important}
+html body .themed-select-trigger{width:100%;min-height:44px;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:var(--surface)!important;color:var(--ink)!important;border:1px solid var(--line-strong)!important;border-radius:12px;padding:10px 14px;cursor:pointer;font:inherit}
+html body .themed-select-menu{position:fixed;z-index:10000;overflow-y:auto;overscroll-behavior:contain;background:var(--surface)!important;color:var(--ink)!important;border:1px solid var(--line-strong)!important;border-radius:12px;padding:5px;box-shadow:0 12px 36px #0003;scrollbar-color:var(--muted) var(--surface);font-size:14px}
+.themed-select-menu[hidden]{display:none!important}
+html body .themed-select-menu [role=option]{padding:11px 12px;min-height:44px;box-sizing:border-box;border-radius:7px;cursor:pointer;color:var(--ink)!important;background:transparent!important}
+html body .themed-select-menu [role=option]:is(:hover,.is-active,[aria-selected=true]){background:var(--surface-soft)!important;outline:1px solid var(--line-strong);outline-offset:-1px;color:var(--ink)!important}
+.themed-select-menu [aria-selected=true]{font-weight:700}
+.themed-select-menu [aria-disabled=true]{opacity:.5;cursor:default}
+.teacher-select-row>.themed-select{min-width:200px}
+.class-timetables{padding:20px;border-top:1px solid var(--line)}
+.class-timetables h3{margin:0 0 14px;font-size:16px}
+.class-timetables label{margin-right:12px}
+.class-timetable-hint{color:var(--muted);font-size:12px;margin:12px 0}
+.class-timetable-scroll{overflow:auto;border:1px solid var(--line);border-radius:12px;background:#fff}
+.class-timetable-scroll img{display:block;width:100%;min-width:900px;height:auto}
+@media(max-width:760px){.teacher-select-row>.themed-select{width:100%;min-width:0}.class-timetables{padding:16px}.class-timetable-scroll img{min-width:1000px}}
+html[data-d2-theme] body .themed-select .themed-select-trigger{background:#F9F9FB!important;color:#1D1D1F!important;border-color:#D1D1D6!important}
+html[data-d2-theme="dark"] body .themed-select .themed-select-trigger{background:#2D2D32!important;color:#F5F5F7!important;border-color:#55555E!important}
+html[data-d2-theme="dark"] body>.themed-select-menu{background:#2D2D32!important;color:#F5F5F7!important;border-color:#55555E!important}
+html[data-d2-theme="dark"] body>.themed-select-menu [role=option]{color:#F5F5F7!important}
+html[data-d2-theme="dark"] body>.themed-select-menu [role=option]:is(:hover,.is-active,[aria-selected=true]){background:#505058!important;color:#FFF!important}

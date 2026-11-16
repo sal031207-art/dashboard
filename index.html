@@ -6151,7 +6151,7 @@ html[data-d2-theme=dark] #school-calendar :is(.school-calendar-panel,.school-cal
 @media(max-width:760px){
   .d2-card #newsGrid.news-grid{grid-template-columns:1fr!important}
 }
-</style>  <link rel="stylesheet" href="./apple-ui.css?v=1">
+</style>  <link rel="stylesheet" href="./apple-ui.css?v=2">
 <script id="adaptiveAppIconController">
 (function(){
   var mq=window.matchMedia('(prefers-color-scheme: dark)');
@@ -6364,6 +6364,15 @@ html[data-d2-theme=dark] #school-calendar :is(.school-calendar-panel,.school-cal
               </table>
             </div>
             <div id="ychMobileSchedule" hidden></div>
+            <section class="class-timetables" aria-labelledby="classTimetableTitle">
+              <h3 id="classTimetableTitle">各班上課時間表</h3>
+              <label for="classTimetableSelect">選擇班別</label>
+              <select id="classTimetableSelect" class="select" aria-label="選擇班別"><option value="1A">1A</option><option value="1CA">1CA</option><option value="1B">1B</option><option value="1C">1C</option><option value="2A">2A</option><option value="2CA">2CA</option><option value="2B">2B</option><option value="2C">2C</option><option value="3A">3A</option><option value="3B">3B</option><option value="3C">3C</option><option value="4A">4A</option><option value="4B">4B</option><option value="4C">4C</option><option value="5A">5A</option><option value="5B">5B</option><option value="5C">5C</option><option value="6A">6A</option><option value="6B">6B</option><option value="6C">6C</option></select>
+              <p class="class-timetable-hint">2026–2027 學年 · 單周及雙周並列；小螢幕可左右滑動查看。</p>
+              <div class="class-timetable-scroll" tabindex="0" role="region" aria-label="班別時間表，可左右捲動">
+                <img id="classTimetableImage" src="assets/class-timetables/1A.webp" alt="1A 班上課時間表：單周及雙周" loading="lazy" width="1684" height="1191">
+              </div>
+            </section>
           </div>
         </section>
 
@@ -14738,5 +14747,6 @@ function initD2ToolDrag(signal){
     enableTraditionalUI();
     boot();
   </script>
+<script src="./timetable-controls.js?v=1"></script>
 </body>
 </html>
