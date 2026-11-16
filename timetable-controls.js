@@ -1,15 +1,5 @@
 /* Theme-aware select menus; native selects retain application state and events. */
 (() => {
-  function initClassTimetable() {
-  const classSelect = document.getElementById('classTimetableSelect');
-  if (!classSelect || classSelect.dataset.classBound) return;
-  classSelect.dataset.classBound = 'true';
-  classSelect.addEventListener('change', () => {
-    const image = document.getElementById('classTimetableImage');
-    image.src = `assets/class-timetables/${classSelect.value}.webp`;
-    image.alt = `${classSelect.value} 班上課時間表：單周及雙周`;
-  });
-  }
   let serial = 0;
   function enhance(select) {
     if (select.dataset.themedSelect || select.multiple || select.size > 1) return;
@@ -40,11 +30,14 @@
       button.textContent = (select.selectedOptions[0]?.textContent || label) + ' ▾';
       button.setAttribute('aria-label', label + '：' + (select.selectedOptions[0]?.textContent || ''));
       button.disabled = select.disabled;
-      [...menu.children].forEach((option, i) => option.setAttribute('aria-selected', String(i === select.selectedIndex)));
+      [...menu.querySelectorAll('[role="option"]')].forEach((option, i) => option.setAttribute('aria-selected', String(i === select.selectedIndex)));
     }
     function rebuild() {
       menu.replaceChildren();
+      let group = "";
       [...select.options].forEach((option, i) => {
+        const name=option.parentElement.tagName === "OPTGROUP" ? option.parentElement.label : "";
+        if(name && name !== group){const heading=document.createElement("div");heading.className="themed-select-heading";heading.textContent=name;menu.append(heading);group=name;}
         const node = document.createElement('div');
         node.id = `${menu.id}-${i}`;
         node.setAttribute('role', 'option');
@@ -62,10 +55,10 @@
     }
     function focusOption(i) {
       active = Math.max(0, Math.min(select.options.length - 1, i));
-      [...menu.children].forEach((node, j) => node.classList.toggle('is-active', j === active));
-      if (menu.children[active]) {
-        button.setAttribute('aria-activedescendant', menu.children[active].id);
-        const node = menu.children[active];
+      [...menu.querySelectorAll('[role="option"]')].forEach((node, j) => node.classList.toggle('is-active', j === active));
+      if (menu.querySelectorAll('[role="option"]')[active]) {
+        button.setAttribute('aria-activedescendant', menu.querySelectorAll('[role="option"]')[active].id);
+        const node = menu.querySelectorAll('[role="option"]')[active];
         if (node.offsetTop < menu.scrollTop) menu.scrollTop = node.offsetTop;
         else if (node.offsetTop + node.offsetHeight > menu.scrollTop + menu.clientHeight) menu.scrollTop = node.offsetTop + node.offsetHeight - menu.clientHeight;
       }
@@ -120,7 +113,7 @@
     [...(select.labels || [])].forEach(l => l.addEventListener('click', e => {e.preventDefault();button.focus();}));
     rebuild();
   }
-  function scan() {initClassTimetable();document.querySelectorAll('select:not([data-themed-select])').forEach(enhance);}
+  function scan() {document.querySelectorAll('select:not([data-themed-select])').forEach(enhance);}
   scan();
   new MutationObserver(scan).observe(document.body,{childList:true,subtree:true});
 })();
