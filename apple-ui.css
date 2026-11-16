@@ -841,3 +841,8 @@ html body #weekly-schedule .ych-mobile-lesson{padding-top:9px!important;padding-
  html body #mainContent[data-d2-route]:has(> #weekly-schedule:not([hidden]):not(.d2-route-hidden)) #schoolCalendarGrid{flex:1 1 0!important;height:auto!important;grid-template-rows:repeat(6,minmax(0,1fr))!important;grid-auto-rows:auto!important}
  html body #mainContent[data-d2-route]:has(> #weekly-schedule:not([hidden]):not(.d2-route-hidden)) #schoolCalendarGrid .school-calendar-day{min-height:0!important;overflow:hidden!important}
 }
+/* Plain lesson text: keep only cell borders and whole-row break highlights. */
+html body #mainContent #weekly-schedule .weekly-schedule-table td :is(.schedule-cell-item,.schedule-duty-cell),
+html body #mainContent #weekly-schedule .weekly-schedule-table td :is(.schedule-cell-item,.schedule-duty-cell) *,
+html body #mainContent #weekly-schedule .ych-mobile-lesson>div,
+html body #mainContent #weekly-schedule .ych-mobile-lesson>div *{background:transparent!important;box-shadow:none!important;text-shadow:none!important}
