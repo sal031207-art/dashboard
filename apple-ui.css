@@ -71,7 +71,7 @@ dialog,.dash-dialog,.dashboard-dialog,.mobile-nav-dialog{border-radius:22px!impo
 }
 @media(min-width:961px){
   .dashboard-shell>.sidebar{border-radius:0 22px 22px 0}
-  .dashboard-shell>#mainContent{padding-top:30px!important}
+  .dashboard-shell>#mainContent{padding-top:110px!important}
 }
 @media(max-width:960px){
   .dashboard-shell>.sidebar{background:color-mix(in srgb,var(--surface) 90%,transparent)!important;-webkit-backdrop-filter:blur(22px) saturate(150%);backdrop-filter:blur(22px) saturate(150%)}
