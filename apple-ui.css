@@ -834,3 +834,10 @@ html body #weekly-schedule .ych-mobile-lesson{padding-top:9px!important;padding-
  html body #mainContent #schoolCalendarGrid .calendar-event-chip{max-height:32px!important;overflow:hidden!important}
  html body #mainContent #schoolCalendarGrid .calendar-event-text{display:-webkit-box!important;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden!important;line-height:1.25!important}
 }
+/* Let the timetable set the shared desktop row height; fill it with the calendar. */
+@media(min-width:1101px){
+ html body #mainContent[data-d2-route]:has(> #weekly-schedule:not([hidden]):not(.d2-route-hidden)) > #school-calendar{contain:size!important;align-self:stretch!important;height:auto!important;display:flex;flex-direction:column;min-height:0!important}
+ html body #mainContent[data-d2-route]:has(> #weekly-schedule:not([hidden]):not(.d2-route-hidden)) #school-calendar :is(.section-collapsible-body,.school-calendar-panel,.school-calendar-body,.school-calendar-grid-wrap){display:flex!important;flex-direction:column;flex:1 1 0!important;min-height:0!important}
+ html body #mainContent[data-d2-route]:has(> #weekly-schedule:not([hidden]):not(.d2-route-hidden)) #schoolCalendarGrid{flex:1 1 0!important;height:auto!important;grid-template-rows:repeat(6,minmax(0,1fr))!important;grid-auto-rows:auto!important}
+ html body #mainContent[data-d2-route]:has(> #weekly-schedule:not([hidden]):not(.d2-route-hidden)) #schoolCalendarGrid .school-calendar-day{min-height:0!important;overflow:hidden!important}
+}
