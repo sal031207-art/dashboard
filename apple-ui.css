@@ -844,7 +844,11 @@ html body #weekly-schedule .ych-mobile-lesson{padding-top:9px!important;padding-
 /* iPad portrait: never let desktop row sizing collapse the calendar.
    Preserve all seven day columns by scrolling the calendar itself. */
 @media (min-width:761px) and (max-width:1024px) and (orientation:portrait){
- html body #mainContent[data-d2-route] > #school-calendar:not([hidden]):not(.d2-route-hidden){
+ /* Old saved visibility preferences can leave the calendar's hidden attribute on. */
+ html body #mainContent[data-d2-route="school"] > #school-calendar[hidden]:not(.d2-route-hidden){
+  display:block!important;
+ }
+ html body #mainContent[data-d2-route="school"] > #school-calendar:not(.d2-route-hidden){
   display:block!important;
   contain:none!important;
   height:auto!important;
