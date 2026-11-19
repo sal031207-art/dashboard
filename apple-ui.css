@@ -841,6 +841,49 @@ html body #weekly-schedule .ych-mobile-lesson{padding-top:9px!important;padding-
  html body #mainContent[data-d2-route]:has(> #weekly-schedule:not([hidden]):not(.d2-route-hidden)) #schoolCalendarGrid{flex:1 1 0!important;height:auto!important;grid-template-rows:repeat(6,minmax(0,1fr))!important;grid-auto-rows:auto!important}
  html body #mainContent[data-d2-route]:has(> #weekly-schedule:not([hidden]):not(.d2-route-hidden)) #schoolCalendarGrid .school-calendar-day{min-height:0!important;overflow:hidden!important}
 }
+/* iPad portrait: never let desktop row sizing collapse the calendar.
+   Preserve all seven day columns by scrolling the calendar itself. */
+@media (min-width:761px) and (max-width:1024px) and (orientation:portrait){
+ html body #mainContent[data-d2-route] > #school-calendar:not([hidden]):not(.d2-route-hidden){
+  display:block!important;
+  contain:none!important;
+  height:auto!important;
+  min-height:0!important;
+  align-self:start!important;
+  overflow:visible!important;
+ }
+ html body #mainContent #school-calendar :is(.section-collapsible-body,.school-calendar-panel,.school-calendar-body){
+  display:block!important;
+  height:auto!important;
+  min-height:0!important;
+  overflow:visible!important;
+ }
+ html body #mainContent #school-calendar .school-calendar-grid-wrap{
+  display:block!important;
+  width:100%!important;
+  min-width:0!important;
+  overflow-x:auto!important;
+  overflow-y:visible!important;
+  -webkit-overflow-scrolling:touch;
+ }
+ html body #mainContent #school-calendar :is(.school-calendar-weekdays,#schoolCalendarGrid){
+  width:100%!important;
+  min-width:630px!important;
+  grid-template-columns:repeat(7,minmax(0,1fr))!important;
+ }
+ html body #mainContent #schoolCalendarGrid{
+  display:grid!important;
+  height:auto!important;
+  min-height:0!important;
+  flex:none!important;
+  grid-template-rows:none!important;
+  grid-auto-rows:minmax(96px,auto)!important;
+ }
+ html body #mainContent #schoolCalendarGrid .school-calendar-day{
+  height:auto!important;
+  min-height:96px!important;
+ }
+}
 /* Plain lesson text: keep only cell borders and whole-row break highlights. */
 html body #mainContent #weekly-schedule .weekly-schedule-table td :is(.schedule-cell-item,.schedule-duty-cell),
 html body #mainContent #weekly-schedule .weekly-schedule-table td :is(.schedule-cell-item,.schedule-duty-cell) *,
