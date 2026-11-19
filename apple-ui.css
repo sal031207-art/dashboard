@@ -893,3 +893,15 @@ html body #mainContent #weekly-schedule .weekly-schedule-table td :is(.schedule-
 html body #mainContent #weekly-schedule .weekly-schedule-table td :is(.schedule-cell-item,.schedule-duty-cell) *,
 html body #mainContent #weekly-schedule .ych-mobile-lesson>div,
 html body #mainContent #weekly-schedule .ych-mobile-lesson>div *{background:transparent!important;box-shadow:none!important;text-shadow:none!important}
+
+
+/* iPad portrait calendar must grow with its content, even on the school route. */
+@media (min-width:761px) and (max-width:1100px){
+ #mainContent[data-d2-route=school]>#school-calendar{display:block!important;grid-column:1/-1!important;width:100%;height:auto!important;min-height:max-content!important;contain:none!important;align-self:start;overflow:visible!important}
+ #mainContent[data-d2-route=school]>#school-calendar>.section-collapsible-body{display:block!important;height:auto!important;min-height:max-content!important;overflow:visible!important}
+ #mainContent[data-d2-route=school] #school-calendar .school-calendar-panel,
+ #mainContent[data-d2-route=school] #school-calendar .school-calendar-body,
+ #mainContent[data-d2-route=school] #school-calendar .school-calendar-grid-wrap{display:block!important;height:auto!important;min-height:max-content!important;overflow:visible!important}
+ #mainContent[data-d2-route=school] #schoolCalendarGrid{display:grid!important;flex:none!important;height:auto!important;min-height:0!important;grid-template-columns:repeat(7,minmax(0,1fr))!important;grid-template-rows:none!important;grid-auto-rows:minmax(100px,auto)!important}
+ #mainContent[data-d2-route=school] #schoolCalendarGrid .school-calendar-day{height:auto!important;min-height:100px!important;overflow-wrap:anywhere}
+}
