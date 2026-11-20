@@ -823,85 +823,25 @@ html[data-d2-theme="dark"] body #weekly-schedule .ych-mobile-lesson.d2-break{bac
 html[data-d2-theme="dark"] body #weekly-schedule .ych-mobile-lesson[data-break-kind="午膳"]{background:#443925!important;color:#F7E5BE!important}
 html body #weekly-schedule .ych-mobile-lesson.d2-break :is(strong,time){color:inherit!important}
 html body #weekly-schedule .ych-mobile-lesson{padding-top:9px!important;padding-bottom:9px!important;min-height:0!important}
-@media(min-width:761px){
- html body #mainContent[data-d2-route] > #school-calendar{contain:none!important;height:auto!important;align-self:start;min-height:0!important}
- html body #mainContent[data-d2-route] #school-calendar :is(.section-collapsible-body,.school-calendar-panel,.school-calendar-body,.school-calendar-grid-wrap){flex:0 1 auto!important}
- html body #mainContent[data-d2-route] #schoolCalendarGrid{flex:none!important;grid-template-rows:none!important;grid-auto-rows:minmax(96px,auto)!important;min-height:0!important;height:auto!important}
- html body #mainContent[data-d2-route] #schoolCalendarGrid .school-calendar-day{min-height:96px!important;height:auto!important;padding:6px!important;gap:3px!important;overflow:visible!important}
- html body #schoolCalendarGrid .calendar-event-chip{padding:2px 3px!important;line-height:1.25!important}
+/* The calendar's content sets its minimum height in both grid layouts. */
+@media (min-width:761px){
+ #mainContent[data-d2-route="school"] #school-calendar .school-calendar-panel{margin-bottom:0}
+ #mainContent[data-d2-route="school"] #school-calendar .school-calendar-head{padding:14px!important}
+ #mainContent[data-d2-route="school"] #school-calendar .school-calendar-grid-wrap{padding:10px!important}
+ #mainContent #schoolCalendarGrid{grid-auto-rows:minmax(96px,auto)}
+ #mainContent #schoolCalendarGrid .school-calendar-day{min-height:96px;height:auto;padding:6px;gap:3px;overflow-wrap:anywhere}
+ #mainContent #schoolCalendarGrid .calendar-event-chip{padding:2px 3px!important;line-height:1.25!important;max-height:32px!important;overflow:hidden!important}
+ #mainContent #schoolCalendarGrid .calendar-event-text{display:-webkit-box!important;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden!important;line-height:1.25!important}
 }
-@media(min-width:761px){
- html body #mainContent #schoolCalendarGrid .calendar-event-chip{max-height:32px!important;overflow:hidden!important}
- html body #mainContent #schoolCalendarGrid .calendar-event-text{display:-webkit-box!important;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden!important;line-height:1.25!important}
-}
-/* Let the timetable set the shared desktop row height; fill it with the calendar. */
-@media(min-width:1101px){
- html body #mainContent[data-d2-route]:has(> #weekly-schedule:not([hidden]):not(.d2-route-hidden)) > #school-calendar{contain:size!important;align-self:stretch!important;height:auto!important;display:flex;flex-direction:column;min-height:0!important}
- html body #mainContent[data-d2-route]:has(> #weekly-schedule:not([hidden]):not(.d2-route-hidden)) #school-calendar :is(.section-collapsible-body,.school-calendar-panel,.school-calendar-body,.school-calendar-grid-wrap){display:flex!important;flex-direction:column;flex:1 1 0!important;min-height:0!important}
- html body #mainContent[data-d2-route]:has(> #weekly-schedule:not([hidden]):not(.d2-route-hidden)) #schoolCalendarGrid{flex:1 1 0!important;height:auto!important;grid-template-rows:repeat(6,minmax(0,1fr))!important;grid-auto-rows:auto!important}
- html body #mainContent[data-d2-route]:has(> #weekly-schedule:not([hidden]):not(.d2-route-hidden)) #schoolCalendarGrid .school-calendar-day{min-height:0!important;overflow:hidden!important}
-}
-/* iPad portrait: never let desktop row sizing collapse the calendar.
-   Preserve all seven day columns by scrolling the calendar itself. */
+
+/* Keep the seven day columns readable on narrow portrait tablets. */
 @media (min-width:761px) and (max-width:1024px) and (orientation:portrait){
- /* Old saved visibility preferences can leave the calendar's hidden attribute on. */
- html body #mainContent[data-d2-route="school"] > #school-calendar[hidden]:not(.d2-route-hidden){
-  display:block!important;
- }
- html body #mainContent[data-d2-route="school"] > #school-calendar:not(.d2-route-hidden){
-  display:block!important;
-  contain:none!important;
-  height:auto!important;
-  min-height:0!important;
-  align-self:start!important;
-  overflow:visible!important;
- }
- html body #mainContent #school-calendar :is(.section-collapsible-body,.school-calendar-panel,.school-calendar-body){
-  display:block!important;
-  height:auto!important;
-  min-height:0!important;
-  overflow:visible!important;
- }
- html body #mainContent #school-calendar .school-calendar-grid-wrap{
-  display:block!important;
-  width:100%!important;
-  min-width:0!important;
-  overflow-x:auto!important;
-  overflow-y:visible!important;
-  -webkit-overflow-scrolling:touch;
- }
- html body #mainContent #school-calendar :is(.school-calendar-weekdays,#schoolCalendarGrid){
-  width:100%!important;
-  min-width:630px!important;
-  grid-template-columns:repeat(7,minmax(0,1fr))!important;
- }
- html body #mainContent #schoolCalendarGrid{
-  display:grid!important;
-  height:auto!important;
-  min-height:0!important;
-  flex:none!important;
-  grid-template-rows:none!important;
-  grid-auto-rows:minmax(96px,auto)!important;
- }
- html body #mainContent #schoolCalendarGrid .school-calendar-day{
-  height:auto!important;
-  min-height:96px!important;
- }
+ #mainContent #school-calendar .school-calendar-grid-wrap{overflow-x:auto}
+ #mainContent #school-calendar :is(.school-calendar-weekdays,#schoolCalendarGrid){min-width:630px}
 }
+
 /* Plain lesson text: keep only cell borders and whole-row break highlights. */
 html body #mainContent #weekly-schedule .weekly-schedule-table td :is(.schedule-cell-item,.schedule-duty-cell),
 html body #mainContent #weekly-schedule .weekly-schedule-table td :is(.schedule-cell-item,.schedule-duty-cell) *,
 html body #mainContent #weekly-schedule .ych-mobile-lesson>div,
 html body #mainContent #weekly-schedule .ych-mobile-lesson>div *{background:transparent!important;box-shadow:none!important;text-shadow:none!important}
-
-
-/* iPad portrait calendar must grow with its content, even on the school route. */
-@media (min-width:761px) and (max-width:1100px){
- #mainContent[data-d2-route=school]>#school-calendar{display:block!important;grid-column:1/-1!important;width:100%;height:auto!important;min-height:max-content!important;contain:none!important;align-self:start;overflow:visible!important}
- #mainContent[data-d2-route=school]>#school-calendar>.section-collapsible-body{display:block!important;height:auto!important;min-height:max-content!important;overflow:visible!important}
- #mainContent[data-d2-route=school] #school-calendar .school-calendar-panel,
- #mainContent[data-d2-route=school] #school-calendar .school-calendar-body,
- #mainContent[data-d2-route=school] #school-calendar .school-calendar-grid-wrap{display:block!important;height:auto!important;min-height:max-content!important;overflow:visible!important}
- #mainContent[data-d2-route=school] #schoolCalendarGrid{display:grid!important;flex:none!important;height:auto!important;min-height:0!important;grid-template-columns:repeat(7,minmax(0,1fr))!important;grid-template-rows:none!important;grid-auto-rows:minmax(100px,auto)!important}
- #mainContent[data-d2-route=school] #schoolCalendarGrid .school-calendar-day{height:auto!important;min-height:100px!important;overflow-wrap:anywhere}
-}
